@@ -72,4 +72,20 @@ end $$;
 select public.configure_server(current_setting('test.second_server')::uuid,'remove','{}');
 select public.configure_server(current_setting('test.second_server')::uuid,'restore','{}');
 do $$ begin if not exists(select 1 from public.snapshots where server_id=current_setting('test.second_server')::uuid) then raise exception 'Remove lost operational history';end if;end $$;
+
+-- One website account deliberately has different roles on the two servers.
+reset role;
+insert into public.roles(id,server_id,name) values('c1000000-0000-4000-8000-000000000002','b1000000-0000-4000-8000-000000000001','Member');
+insert into public.role_permissions values('c1000000-0000-4000-8000-000000000002','status.view');
+insert into public.memberships values('b1000000-0000-4000-8000-000000000001','a1000000-0000-4000-8000-000000000002','c1000000-0000-4000-8000-000000000002','approved');
+insert into public.memberships select current_setting('test.second_server')::uuid,'a1000000-0000-4000-8000-000000000002',id,'approved' from public.roles where server_id=current_setting('test.second_server')::uuid and name='Admin';
+set local role authenticated;
+select set_config('request.jwt.claim.sub','a1000000-0000-4000-8000-000000000002',true);
+do $$ begin
+ if (select count(*) from public.servers)<>2 then raise exception 'Independent permitted server list failed';end if;
+ begin perform public.enqueue_command('b1000000-0000-4000-8000-000000000001','start','{}',gen_random_uuid());raise exception 'Member inherited other server Admin rights';exception when insufficient_privilege then null;end;
+ perform public.enqueue_command(current_setting('test.second_server')::uuid,'start','{}',gen_random_uuid());
+ if (select count(*) from public.commands where requested_by=auth.uid())<>1 then raise exception 'Server-specific Admin control denied';end if;
+end $$;
+
 rollback;

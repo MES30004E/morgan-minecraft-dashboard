@@ -24,7 +24,7 @@ No Ubuntu changes, paid services, arbitrary paths/commands from the website, wor
 - [x] Database: write multi_server.sql regression tests, observe failure, implement resource/endpoint configuration RPCs, multi-agent mappings and scoped dispatcher, pairing associations/history, archive-aware lifecycle; run old and new SQL suites on rollback fixtures and CI.
 - [x] Agent: write scope/config tests, observe failure; add local-only config validation, scoped RPC adapter, multi-server supervisor and per-server state/bridge/archive routing. Test mismatch rejection and independent dispatch/recovery.
 - [x] Frontend: write route/selection tests, observe failure; add permitted-server overview and selector, configuration UI, server-specific bookmark routes and scoped child components; test/build and live smoke test.
-- [ ] Verification: independent whole-change security review, fix important findings with regression tests, run CI, apply tested forward migrations, deploy Pages, update installation/maintenance evidence. No real server operation until separate installation approval.
+- [x] Verification: independent whole-change security review, fix important findings with regression tests, run CI, apply tested forward migrations, deploy Pages, update installation/maintenance evidence. No real server operation until separate installation approval.
 
 ## Ledger
 
@@ -39,3 +39,7 @@ Final rulings on reviewed nonfindings: existing target/claim-token checks remain
 Free-tier verification: heartbeat refresh previously reread all permitted role metadata, which becomes expensive with many server roles. Added RED→GREEN query-budget regression and restricted heartbeat requests to snapshot/health/presence; console/audit/role configuration remain explicit refreshes.
 
 Hosted migration applied as 20261110130459_multi_server_resources after all verification-branch CI jobs passed. Cloud metadata now names the existing resource Morgan's Test Server. No Ubuntu changes.
+
+Final functional verification: same account Member on A/Admin on B correctly denied A control and accepted B control in hosted rollback suite. Live create/edit/switch/remember/archive/restore/remove and 390px layout passed; metadata-only draft soft removed. Found legacy hardcoded permission menu omitted new configuration capabilities; switched it to explicit database capability loading, query-budget regression RED→GREEN.
+
+Registration return-route check: game-first bookmarks must survive a Google OAuth redirect for a not-yet-signed-in visitor. Added strict bookmark-only session return handling with RED→GREEN tests; no arbitrary external return URL is accepted.

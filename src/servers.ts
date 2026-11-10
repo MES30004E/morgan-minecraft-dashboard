@@ -8,6 +8,10 @@ export function chooseServer(permitted:string[],remembered:string|null):string|n
 export function serverTables(view:string,details:boolean):string[]{
  const tables=details?['servers','memberships','roles','role_permissions','snapshots','agent_health']:['snapshots','agent_health'];
  if(view==='players'||view.startsWith('player/')){tables.push('online_players');if(details)tables.push('player_statistics');}
- if(details){if(view==='console')tables.push('console_tail');if(view==='backups')tables.push('backups');if(view==='activity')tables.push('commands','audit_events');}
+ if(details){if(view==='access')tables.push('permissions');if(view==='console')tables.push('console_tail');if(view==='backups')tables.push('backups');if(view==='activity')tables.push('commands','audit_events');}
  return tables;
+}
+export function authReturnRoute(current:string,stored:string|null):string|null{
+ if(current)return parseServerRoute(current)?current:null;
+ return stored&&parseServerRoute(stored)?stored:null;
 }
