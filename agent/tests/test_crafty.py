@@ -12,6 +12,7 @@ class CraftyTests(unittest.TestCase):
     def test_console_is_constructed_only_from_allowlisted_player_action(self):
         sent=[]
         client=Crafty.__new__(Crafty)
+        client.read_only=False
         client.server_id='36ca5a76-35ed-4db4-aafa-d34923e83916'
         client.request=lambda method,path,body=None: sent.append((method,path,body))
         command=dict(id='550e8400-e29b-41d4-a716-446655440000',operation='kick',arguments={'player':'Steve_123'},expires_at=200)

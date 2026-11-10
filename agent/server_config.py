@@ -10,7 +10,7 @@ def load_servers(document):
     if not isinstance(document,dict) or set(document)!={'servers'} or not isinstance(document['servers'],list) or not 1<=len(document['servers'])<=10:
         raise ValueError('Configure one to ten server mappings')
     result=[];ids=set();controllers=set();sockets=set();keys=set();groups=set()
-    allowed={'server_id','crafty_server_id','crafty_url','crafty_token','crafty_ca_file','backup_directory','upload_console','link_socket','link_key_file','archive_key_file','link_group'}
+    allowed={'server_id','crafty_server_id','crafty_url','crafty_token','crafty_ca_file','backup_directory','upload_console','link_socket','link_key_file','archive_key_file','link_group','controls_enabled'}
     for entry in document['servers']:
         if not isinstance(entry,dict) or set(entry)-allowed:raise ValueError('Unknown local server configuration')
         item=dict(entry)
@@ -26,6 +26,8 @@ def load_servers(document):
             if item['link_socket'] in sockets or item['link_key_file'] in keys or item.get('link_group','morgan-minecraft-link') in groups:raise ValueError('Each bridge needs its own socket and key')
             sockets.add(item['link_socket']);keys.add(item['link_key_file']);groups.add(item.get('link_group','morgan-minecraft-link'))
             if not re.fullmatch(r'[a-z_][a-z0-9_-]{0,31}',item.get('link_group','morgan-minecraft-link')):raise ValueError('Invalid local bridge group')
+        if 'controls_enabled' in item and type(item['controls_enabled']) is not bool:raise ValueError('Control switch must be boolean')
+        item.setdefault('controls_enabled',False)
         if 'upload_console' in item and type(item['upload_console']) is not bool:raise ValueError('Console flag must be boolean')
         result.append(item)
     return result

@@ -1,2 +1,3 @@
-import { defineConfig } from 'vite';
-export default defineConfig({base:'/morgan-minecraft-dashboard/'});
+import {defineConfig} from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+export default defineConfig({base:'/morgan-minecraft-dashboard/',plugins:[tailwindcss()],resolve:{alias:{'@':new URL('./src',import.meta.url).pathname}}});

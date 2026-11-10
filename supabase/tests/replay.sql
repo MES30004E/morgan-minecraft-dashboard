@@ -5,6 +5,7 @@ insert into public.roles(id,server_id,name) values('f0000000-0000-4000-8000-0000
 insert into public.role_permissions values('f0000000-0000-4000-8000-000000000001','server.start');
 insert into public.memberships values('e0000000-0000-4000-8000-000000000001','d0000000-0000-4000-8000-000000000001','f0000000-0000-4000-8000-000000000001','approved');
 insert into private.agents values('d0000000-0000-4000-8000-000000000002','e0000000-0000-4000-8000-000000000001',true);
+do $$ begin if exists(select 1 from information_schema.columns where table_schema='private' and table_name='agents' and column_name='control_enabled') then execute 'update private.agents set control_enabled=true where user_id=''d0000000-0000-4000-8000-000000000002''' ;end if;end $$;
 set local role authenticated;
 select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000001',true);
 select public.enqueue_command('e0000000-0000-4000-8000-000000000001','start','{}','f0000000-0000-4000-8000-000000000002');

@@ -5,10 +5,12 @@ from datetime import datetime
 from control import validate
 
 class Worker:
-    def __init__(self, cloud, journal, execute):
+    def __init__(self, cloud, journal, execute, *, execute_enabled=False):
         self.cloud,self.journal,self.execute=cloud,journal,execute
+        self.execute_enabled=execute_enabled is True
 
     async def process_one(self):
+        if not self.execute_enabled:return False
         response=await self.cloud.rpc('claim_command',{}).execute()
         if not response.data:return False
         row=response.data[0]

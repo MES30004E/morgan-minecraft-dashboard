@@ -20,6 +20,8 @@ end $$;
 select public.configure_server(current_setting('test.second_server')::uuid,'edit','{"description":"Creative only","name":"Creative"}');
 reset role;
 insert into private.agents(user_id,server_id) values('a1000000-0000-4000-8000-000000000003','b1000000-0000-4000-8000-000000000001'),('a1000000-0000-4000-8000-000000000003',current_setting('test.second_server')::uuid);
+update private.agents set control_enabled=true where user_id='a1000000-0000-4000-8000-000000000003';
+
 set local role authenticated;
 select set_config('request.jwt.claim.sub','a1000000-0000-4000-8000-000000000003',true);
 do $$ begin

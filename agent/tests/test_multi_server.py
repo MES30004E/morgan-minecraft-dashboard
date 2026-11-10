@@ -61,7 +61,7 @@ class RuntimeTests(unittest.IsolatedAsyncioTestCase):
    journals=[Journal(Path(root)/name) for name in ('a.db','b.db')]
    try:
     for server,journal in zip((A,B),journals):
-     worker=Worker(ScopedCloud(Cloud(),server),journal,lambda command,s=server:calls.append(s))
+     worker=Worker(ScopedCloud(Cloud(),server),journal,lambda command,s=server:calls.append(s),execute_enabled=True)
      await worker.process_one();await worker.process_one()
    finally:
     for journal in journals:journal.close()

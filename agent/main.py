@@ -49,9 +49,9 @@ async def server_loop(raw_cloud,config,stop,wake,state_root,archive_root,archive
     server_id=config['server_id'];cloud=ScopedCloud(raw_cloud,server_id)
     state=state_root/server_id;state.mkdir(mode=0o700,parents=True,exist_ok=True)
     journal=Journal(state/'executions.db')
-    crafty=Crafty(config.get('crafty_url',os.environ.get('CRAFTY_URL','https://localhost:8443')),config['crafty_server_id'],config.get('crafty_token',os.environ['CRAFTY_TOKEN']),config.get('crafty_ca_file',os.environ['CRAFTY_CA_FILE']))
+    crafty=Crafty(config.get('crafty_url',os.environ.get('CRAFTY_URL','https://localhost:8443')),config['crafty_server_id'],config.get('crafty_token',os.environ['CRAFTY_TOKEN']),config.get('crafty_ca_file',os.environ['CRAFTY_CA_FILE']),read_only=not config.get('controls_enabled',False))
     archive_store=None;archive_task=None;local_server=None;bridge=None
-    archive_status=dict(archive_state='disabled',archive_bytes=None,quota_bytes=None,disk_free_bytes=None,last_archive_success=None)
+    archive_status=dict(archive_state='disabled',archive_bytes=None,quota_bytes=None,disk_free_bytes=None,last_archive_success=None,controls_enabled=config.get('controls_enabled',False))
     if os.environ.get('ENABLE_ARCHIVES','false').lower()=='true':
         try:
             archive_store=LocalArchiveStore(archive_root/server_id,private_read(Path(config.get('archive_key_file',os.environ['ARCHIVE_KEY_FILE']))),max_bytes=archive_quota)
@@ -59,8 +59,8 @@ async def server_loop(raw_cloud,config,stop,wake,state_root,archive_root,archive
             archive_status['archive_state']='failed';log('archive_configuration_failed',server_id=server_id,error_type=type(error).__name__)
     try:
         await cloud.rpc('identity',{}).execute()
-        worker=Worker(cloud,journal,crafty.execute)
-        if config.get('link_socket'):
+        worker=Worker(cloud,journal,crafty.execute,execute_enabled=config.get('controls_enabled',False))
+        if config.get('controls_enabled',False) and config.get('link_socket'):
             socket_path=Path(config['link_socket']);key=bytes.fromhex(private_read(Path(config['link_key_file'])).decode().strip())
             if socket_path.exists():
                 info=socket_path.lstat()
@@ -69,8 +69,8 @@ async def server_loop(raw_cloud,config,stop,wake,state_root,archive_root,archive
             bridge=LocalBridge(cloud,state/'executions.db',key)
             local_server=await asyncio.start_unix_server(bridge.handle,path=str(socket_path),limit=8192,backlog=16)
             os.chown(socket_path,-1,grp.getgrnam(config.get('link_group','morgan-minecraft-link')).gr_gid);socket_path.chmod(0o660)
-        pending=await cloud.rpc('recover_commands',{}).execute()
-        for row in pending.data:
+        pending_rows=(await cloud.rpc('recover_commands',{}).execute()).data if config.get('controls_enabled',False) else []
+        for row in pending_rows:
             outcome='completed' if journal.state(row['id'])=='completed' else 'uncertain'
             await cloud.rpc('finish_command',dict(command_id=row['id'],token=row['claim_token'],outcome=outcome,summary='Recovered from durable execution journal' if outcome=='completed' else 'Restart interrupted dispatch; owner reconciliation required')).execute()
         if archive_store:archive_task=asyncio.create_task(archive_loop(cloud,stop,archive_store,archive_status))
@@ -83,11 +83,11 @@ async def server_loop(raw_cloud,config,stop,wake,state_root,archive_root,archive
                     health=archive_store.health();archive_status.update(archive_bytes=health['used_bytes'],quota_bytes=health['max_bytes'],disk_free_bytes=health['disk_free_bytes'])
                 if time.monotonic()-last_console>=120:
                     await cloud.rpc('publish_agent_health',archive_status).execute()
-                    if config.get('upload_console',False):
+                    if config.get('controls_enabled',False) and config.get('upload_console',False):
                         try:await cloud.rpc('publish_console',dict(log_lines=await asyncio.to_thread(crafty.console))).execute()
                         except Exception:log('console_unavailable',server_id=server_id)
                     last_console=time.monotonic()
-                if config.get('backup_directory') and time.monotonic()-last_backups>=21600:
+                if config.get('controls_enabled',False) and config.get('backup_directory') and time.monotonic()-last_backups>=21600:
                     try:await cloud.rpc('publish_backups',dict(archives=await asyncio.to_thread(scan_backups,Path(config['backup_directory'])))).execute()
                     except Exception:log('backup_metadata_unavailable',server_id=server_id)
                     last_backups=time.monotonic()

@@ -4,7 +4,8 @@
       "server_id": "c18848e0-5448-433a-909d-804ad3680713",
       "crafty_server_id": "36ca5a76-35ed-4db4-aafa-d34923e83916",
       "crafty_url": "https://localhost:8443",
-      "upload_console": false
+      "upload_console": false,
+      "controls_enabled": false
     }
   ]
 }

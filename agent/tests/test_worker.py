@@ -18,7 +18,7 @@ class WorkerTests(unittest.IsolatedAsyncioTestCase):
     async def test_duplicate_claim_does_not_repeat_side_effect(self):
         with tempfile.TemporaryDirectory() as directory:
             cloud=Cloud([self.row()]);calls=[]
-            worker=Worker(cloud,Journal(Path(directory)/'db'),lambda command:calls.append(command))
+            worker=Worker(cloud,Journal(Path(directory)/'db'),lambda command:calls.append(command),execute_enabled=True)
             await worker.process_one();await worker.process_one()
             self.assertEqual(len(calls),1)
             self.assertEqual(cloud.results[-1][1]['outcome'],'completed')
@@ -28,7 +28,7 @@ class WorkerTests(unittest.IsolatedAsyncioTestCase):
         with tempfile.TemporaryDirectory() as directory:
             cloud=Cloud([self.row()]);calls=[]
             def execute(command):calls.append(command);raise TimeoutError()
-            worker=Worker(cloud,Journal(Path(directory)/'db'),execute)
+            worker=Worker(cloud,Journal(Path(directory)/'db'),execute,execute_enabled=True)
             await worker.process_one();await worker.process_one()
             self.assertEqual(len(calls),1)
             self.assertEqual(cloud.results[-1][1]['outcome'],'uncertain')
@@ -37,7 +37,7 @@ class WorkerTests(unittest.IsolatedAsyncioTestCase):
     async def test_expired_claim_is_never_executed(self):
         with tempfile.TemporaryDirectory() as directory:
             row=self.row();row['expires_at']='2000-01-01T00:00:00+00:00';calls=[]
-            cloud=Cloud([row]);worker=Worker(cloud,Journal(Path(directory)/'db'),lambda c:calls.append(c))
+            cloud=Cloud([row]);worker=Worker(cloud,Journal(Path(directory)/'db'),lambda c:calls.append(c),execute_enabled=True)
             await worker.process_one()
             self.assertEqual(calls,[])
             self.assertEqual(cloud.results[-1][1]['outcome'],'failed')

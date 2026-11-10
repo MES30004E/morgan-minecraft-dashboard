@@ -31,10 +31,11 @@ def redact_log(line):
 
 
 class Crafty:
-    def __init__(self, base_url, server_id, token, ca_file):
+    def __init__(self, base_url, server_id, token, ca_file, *, read_only=True):
         parsed=urlsplit(base_url)
         if parsed.scheme!='https' or parsed.hostname not in ('localhost','127.0.0.1','::1') or parsed.username or parsed.password or parsed.path not in ('','/') or parsed.query or parsed.fragment:
             raise ValueError('Crafty must use a localhost HTTPS URL')
+        self.read_only=read_only is not False
         self.server_id=str(UUID(server_id))
         self.base_url=base_url.rstrip('/')
         self.token=token
@@ -55,6 +56,7 @@ class Crafty:
             return result.get('data',{})
 
     def execute(self,command,*,now=None):
+        if getattr(self,'read_only',True):raise PermissionError('Crafty adapter is read-only')
         command=validate(command,now=time.time() if now is None else now)
         action=command['operation']
         base='/api/v2/servers/'+self.server_id

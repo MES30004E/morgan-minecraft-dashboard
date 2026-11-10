@@ -1,7 +1,7 @@
 """Read-only Crafty check and scoped agent identity check. Never claims a command."""
 import asyncio
 import os
-import json,pwd
+import json,pwd,grp
 from pathlib import Path
 import shlex
 import sys
@@ -22,8 +22,18 @@ def config(path):
     if any('REPLACE' in value for value in result.values()):raise ValueError('Private configuration is incomplete')
     return result
 
+def validate_service_account(account,groups,expected_gid):
+    if account.pw_uid==0 or account.pw_gid!=expected_gid or set(groups)!={expected_gid} or account.pw_dir!='/var/lib/morgan-minecraft-agent' or account.pw_shell!='/usr/sbin/nologin':
+        raise ValueError('Unexpected service identity or supplementary groups')
+
+def validate_stage_a(configs):
+    for mapping in configs:
+        if mapping.get('controls_enabled',False) or mapping.get('upload_console',False) or any(mapping.get(key) for key in ('backup_directory','link_socket','link_key_file','link_group')):
+            raise ValueError('Stage A requires observation only, without console, backup paths or bridge integration')
+
 async def check(values):
     configs=load_servers(json.loads(read_config(values.get('SERVERS_CONFIG','/etc/morgan-minecraft-agent/servers.json'))))
+    validate_stage_a(configs)
     require_partitioned_state(Path('/var/lib/morgan-minecraft-agent'),Path(values['ARCHIVE_DIRECTORY']))
     client=await acreate_client(values['SUPABASE_URL'],values['SUPABASE_PUBLISHABLE_KEY'],AsyncClientOptions(auto_refresh_token=False,persist_session=False,postgrest_client_retry=False))
     try:
@@ -36,7 +46,7 @@ async def check(values):
             if values.get('ENABLE_ARCHIVES','false').lower()=='true':
                 store=LocalArchiveStore(Path(values['ARCHIVE_DIRECTORY'])/mapping['server_id'],private_read(Path(mapping.get('archive_key_file',values['ARCHIVE_KEY_FILE']))),int(values.get('ARCHIVE_MAX_BYTES','1073741824'))//len(configs))
                 if not store.health()['writable']:raise ValueError('Archive storage reserve prevents writes')
-            print('Scoped identity, Crafty TLS and archive checks passed.')
+            print('Stage A mapping: scoped identity, verified Crafty TLS, GET-only statistics and archive checks passed.')
     finally:
         await client.auth.close();await client.postgrest.aclose()
     print('Preflight passed. No Minecraft commands were sent; no world or backup files were changed.')
@@ -46,7 +56,7 @@ if __name__=='__main__':
         values=config(sys.argv[1] if len(sys.argv)>1 else '/etc/morgan-minecraft-agent/agent.env')
         # Read root-only secrets first, then create/check application state as its owner.
         if os.geteuid()==0:
-            account=pwd.getpwnam('morgan-agent');os.initgroups(account.pw_name,account.pw_gid);os.setgid(account.pw_gid);os.setuid(account.pw_uid)
+            account=pwd.getpwnam('morgan-agent');validate_service_account(account,os.getgrouplist(account.pw_name,account.pw_gid),grp.getgrnam('morgan-agent').gr_gid);os.initgroups(account.pw_name,account.pw_gid);os.setgid(account.pw_gid);os.setuid(account.pw_uid)
         asyncio.run(check(values))
     except Exception as error:
         print('Preflight failed: '+type(error).__name__+'. Check the corresponding installation step; credentials are not printed.',file=sys.stderr)

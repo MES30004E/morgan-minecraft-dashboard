@@ -1,0 +1,7 @@
+# Third-party UI notices
+
+The dashboard adapts the MIT-licensed shadcn/ui sidebar-07 layout and uses upstream shadcn registry primitives in `src/components/ui` and the upstream mobile hook. Copyright (c) 2023 shadcn. Full permission, warranty disclaimer and copyright notice are reproduced in `docs/licenses/shadcn-ui-MIT.txt`. The installed registry/CLI release was 4.23.0; the upstream registry response digest and distributed component digests are in `docs/ui-source-manifest.json`. Layout adaptation is in `src/components/DashboardShell.tsx`; sample companies/projects were removed. No MCSManager, Pterodactyl, Pelican or Crafty implementation source was copied.
+
+Runtime UI libraries: Radix UI, Tailwind CSS, Recharts, class-variance-authority, cn and tw-animate-css (MIT); Lucide React (ISC). Full notices from their pinned installed packages are in `docs/licenses/`. React, Supabase and transitive package notices remain with the respective packages; all dependency versions and integrity digests are in package-lock.json. Review upstream notices when updating. These grants cover third-party material; they do not assign a new blanket licence to the project's own source.
+
+Plan is evaluated only; no Plan or Highcharts code is distributed here. Its LGPL and separately bundled UI licensing must be reviewed if a future compatible artifact is installed. Crafty remains an external API integration.
