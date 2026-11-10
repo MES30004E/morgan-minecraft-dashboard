@@ -3,6 +3,7 @@
 !.env.example
 node_modules/
 dist/
+supabase/.temp/
 __pycache__/
 *.pyc
 *.db

@@ -31,12 +31,16 @@ It does not replace real Supabase Auth/OAuth integration tests, which remain pen
 
 Owner enrollment and administration RPCs, agent identity and command claiming,
 status snapshots, retention, Minecraft pairing/statistics, frontend and Pages,
-Google OAuth and SMTP are not implemented. No live owner is provisioned.
+SMTP and end-to-end OAuth validation remain incomplete. No live owner is provisioned.
 
-Google Cloud browser access is available, but its selected project was Notionary
-Auth. It was not modified. Create a separate Minecraft OAuth project/client.
-Use only openid/email/profile scopes and the new Supabase callback URI. Client
-secrets must be entered directly into Supabase, never into repository files.
+Google Cloud project `just-inverter-514310-s6` is dedicated to Minecraft. Its OAuth
+client was created with the user's action-time approval; its secret was transferred
+directly from Google's creation dialog into Supabase's provider form, without any
+file or repository copy. Google is enabled in Supabase. Nonce checks remain enabled,
+anonymous sign-ins remain disabled, and email confirmation remains required.
+The Pages site URL and exact production callback are configured. Google audience
+is currently Testing; test users or publication must be configured before login.
+The unrelated Notionary Auth project was not modified.
 
 ## Rollback and recovery for this milestone
 
