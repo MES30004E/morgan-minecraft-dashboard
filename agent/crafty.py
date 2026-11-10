@@ -74,13 +74,15 @@ class Crafty:
         try:cpu=float(cpu)
         except (ValueError,TypeError):cpu=None
         if cpu is not None and not 0<=cpu<=100:cpu=None
+        count=data.get('online')
+        if type(count) is not int or not 0<=count<=1000:count=None
         players=data.get('players',[])
         if isinstance(players,str):
             try:players=json.loads(players)
             except ValueError:players=[]
         names=[{'name':p} for p in players if isinstance(p,str) and re.fullmatch(r'[A-Za-z0-9_]{3,16}',p)] if isinstance(players,list) else []
         # Crafty's timestamp timezone is unspecified: do not invent uptime.
-        return dict(server_state=state,cpu=cpu,memory=parse_memory(data.get('mem')),uptime=None,online_players=names[:100])
+        return dict(server_state=state,cpu=cpu,memory=parse_memory(data.get('mem')),uptime=None,online_players=names[:100],player_count=count)
 
     def console(self):
         lines=self.request('GET','/api/v2/servers/'+self.server_id+'/logs?colors=false&raw=false&html=false')

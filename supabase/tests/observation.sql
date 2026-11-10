@@ -16,8 +16,10 @@ do $$ begin
 end $$;
 select public.agent_call('e2000000-0000-4000-8000-000000000001','publish_snapshot','{"server_state":"online","cpu":12,"memory":2048,"uptime":null,"online_players":[]}');
 select public.agent_call('e2000000-0000-4000-8000-000000000001','publish_agent_health','{"archive_state":"disabled","archive_bytes":null,"quota_bytes":null,"disk_free_bytes":null,"last_archive_success":null,"controls_enabled":true}');
+select public.agent_metrics('[{"server_id":"e2000000-0000-4000-8000-000000000001","snapshot":{"server_state":"online","cpu":12,"memory":2048,"uptime":null,"online_players":[],"player_count":5}}]');
 select set_config('request.jwt.claim.sub','e1000000-0000-4000-8000-000000000001',true);
 do $$ begin
+ if (select player_count from public.online_players where server_id='e2000000-0000-4000-8000-000000000001') is distinct from 5 then raise exception 'Player count was inferred from names';end if;
  if (public.server_readiness('e2000000-0000-4000-8000-000000000001')->>'control_ready')::boolean then raise exception 'Observer readiness trusted local control assertion';end if;
  if (select count(*) from public.metric_samples)<>1 then raise exception 'Real telemetry sample missing';end if;
  begin insert into public.metric_samples(server_id,sampled_at,cpu_percent) values('e2000000-0000-4000-8000-000000000001',now(),99);raise exception 'Human forged metrics';exception when insufficient_privilege then null;end;

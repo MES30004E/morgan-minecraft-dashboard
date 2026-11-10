@@ -34,3 +34,11 @@ class CraftyTests(unittest.TestCase):
         self.assertEqual(redact_log('[INFO] Server started'),'[INFO] Server started')
 
 if __name__=='__main__':unittest.main()
+
+class CountTests(unittest.TestCase):
+ def test_online_count_is_independent_of_names(self):
+  client=Crafty.__new__(Crafty);client.server_id='36ca5a76-35ed-4db4-aafa-d34923e83916';client.request=lambda *args:{'running':True,'online':5,'players':'[]'}
+  self.assertEqual(client.snapshot()['player_count'],5)
+  for value in (None,True,-1,'unknown'):
+   client.request=lambda *args:{'online':value}
+   self.assertIsNone(client.snapshot()['player_count'])
