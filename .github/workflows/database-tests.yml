@@ -25,9 +25,9 @@ jobs:
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/bootstrap.sql
       - run: |
           for migration in supabase/migrations/*.sql; do
-            if [[ "$migration" != *replay_and_revocation_hardening.sql ]]; then
-              psql -v ON_ERROR_STOP=1 -f "$migration"
-            fi
+            # Reproduce the historical schema, before hardening and later dependents.
+            if [[ "$migration" == *replay_and_revocation_hardening.sql ]]; then break; fi
+            psql -v ON_ERROR_STOP=1 -f "$migration"
           done
       - name: Prove the concurrency regression catches the old implementation
         run: |
