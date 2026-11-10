@@ -2,9 +2,9 @@
   "requested": 191,
   "implemented_in_code": 130,
   "unit_tested": 93,
-  "deployed": 42,
-  "connected_to_live_infrastructure": 0,
-  "end_to_end_verified": 0,
+  "deployed": 49,
+  "connected_to_live_infrastructure": 1,
+  "end_to_end_verified": 1,
   "features": 191,
   "blocked": 103,
   "outstanding": 191

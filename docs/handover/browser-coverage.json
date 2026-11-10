@@ -169,5 +169,51 @@
       "width": 360
     }
   ],
-  "scope": "Overview only; layout/landmark/disabled-controls measurements, not full interaction/device/AA coverage"
+  "scope": "Overview only; layout/landmark/disabled-controls measurements, not full interaction/device/AA coverage",
+  "post_publication": {
+    "source": "ab0cd97ee3050603eae8edb52bae6bbef1cb4d81",
+    "physicalDevice": false,
+    "measurements": [
+      {
+        "clientWidth": 305,
+        "height": 640,
+        "mainLandmarks": 1,
+        "scrollWidth": 352,
+        "title": "Minecraft Console \u00b7 Server management",
+        "width": 320
+      },
+      {
+        "clientWidth": 345,
+        "height": 740,
+        "mainLandmarks": 1,
+        "scrollWidth": 352,
+        "title": "Minecraft Console \u00b7 Server management",
+        "width": 360
+      },
+      {
+        "clientWidth": 375,
+        "height": 844,
+        "mainLandmarks": 1,
+        "scrollWidth": 375,
+        "title": "Minecraft Console \u00b7 Server management",
+        "width": 390
+      },
+      {
+        "clientWidth": 753,
+        "height": 1024,
+        "mainLandmarks": 1,
+        "scrollWidth": 753,
+        "title": "Minecraft Console \u00b7 Server management",
+        "width": 768
+      },
+      {
+        "clientWidth": 1440,
+        "height": 1000,
+        "mainLandmarks": 1,
+        "scrollWidth": 1440,
+        "title": "Minecraft Console \u00b7 Server management",
+        "width": 1440
+      }
+    ]
+  }
 }

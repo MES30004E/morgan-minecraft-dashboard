@@ -39,7 +39,8 @@
       "Chrome"
     ],
     "physical_mobile_tested": false,
-    "full_accessibility_conformance_verified": false
+    "full_accessibility_conformance_verified": false,
+    "post_publish_branding": "PASS: neutral title/sidebar/footer, existing Owner/server route and name preserved;5width recheck retains320/360overflow"
   },
   "supabase": {
     "project_status": "ACTIVE_HEALTHY",
@@ -52,8 +53,9 @@
   },
   "database_ci": {
     "suites": 9,
-    "fresh_handover_result": "Resolve final HEAD workflow results after publication; preparation does not attest future CI",
-    "historical_source_ci": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42838407976"
+    "fresh_handover_result": "PASS:9suites, revocation concurrency and historical-bug baseline jobs on ephemeral PostgreSQL17",
+    "historical_source_ci": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42838407976",
+    "fresh_run": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42849183770"
   },
   "secret_current_tree": "PASS: exact staged export scanned with reviewed narrow exceptions",
   "artifacts": {
@@ -82,5 +84,36 @@
   "dependencies": {
     "npm_audit": "PASS",
     "known_vulnerabilities": 0
-  }
+  },
+  "verified_code_commit": "ab0cd97ee3050603eae8edb52bae6bbef1cb4d81",
+  "fresh_ci": {
+    "frontend_pages": {
+      "result": "PASS",
+      "run_url": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42849183893"
+    },
+    "database": {
+      "result": "PASS",
+      "run_url": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42849183770"
+    },
+    "python": {
+      "result": "PASS",
+      "run_url": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42849183537"
+    },
+    "java": {
+      "result": "PASS",
+      "run_url": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42849183521"
+    },
+    "secret_handover": {
+      "result": "PASS",
+      "run_url": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42849184116"
+    }
+  },
+  "bundle_restore": {
+    "result": "PASS",
+    "code_commit": "ab0cd97ee3050603eae8edb52bae6bbef1cb4d81",
+    "complete_history": true,
+    "baseline_and_handover_commits": 20,
+    "fresh_clone_fsck_passed": true
+  },
+  "notes": "This metadata-only followup records tests of code commit ab0cd97; resolve current documentation commit with git rev-parse HEAD. No source/schema/host behavior changes in the followup."
 }

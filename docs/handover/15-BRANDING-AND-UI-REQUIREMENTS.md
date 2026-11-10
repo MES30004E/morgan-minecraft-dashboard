@@ -35,3 +35,7 @@ Professional hosting-panel density; established shadcn sidebar07/Radix foundatio
 ## Captured source baseline (personal branding is historical)
 
 These safe screenshots depict the deployed8d baseline before this handover's neutral branding publication, not a synthetic fixture or the future branded release: [desktop dark](screenshots/desktop-dark-8d.jpg), [desktop light](screenshots/desktop-light-8d.jpg), [mobile dark](screenshots/mobile-dark-8d.jpg), [mobile navigation](screenshots/mobile-navigation-8d.jpg), [console](screenshots/console-8d.jpg). New neutral branding must be checked after Pages deployment. Remaining visual work includes HOV-001 at320/360, full browser/long-content coverage and any future configurable privacy/legal copy review.
+
+## Published neutral UI
+
+[Current neutral branding capture](screenshots/neutral-branding-ab0.jpg) was taken after code commitab0cd97 passed Pages deployment. The real server name and account identity were preserved. Google/Supabase administrative resource names and all technical identifiers remain unchanged; this is a product display-name setting, not a provider/resource rename.
