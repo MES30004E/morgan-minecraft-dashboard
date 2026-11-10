@@ -61,7 +61,7 @@ The server-only Fabric module provides `/link`, `/register`, `/verify`, `/profil
 
 Bind mount the **directory** `/var/lib/morgan-minecraft-link` into the Crafty Minecraft container at the same path, read-only. Allow the Minecraft process's supplemental group to read the bridge key and connect to the mode-0660 socket. Do not mount `/etc/morgan-minecraft-agent`, archive keys, the Docker socket or the complete agent state into the container. The shared host directory is stable across service restarts. Exact compose edits depend on your existing installation and are intentionally not fabricated here. Review them before any container recreation. Set `ENABLE_LINK_BRIDGE=true`, restart only the agent, then perform the separately approved Minecraft maintenance restart.
 
-Test linking using a fresh short-lived code: website create → in-game `/verify CODE` → inspect displayed website identity → `/verify confirm CODE`. Verify Member users cannot issue control commands. Unlink and re-link only a test identity you control; never change existing Minecraft UUIDs/world player data. Verify a real statistics snapshot appears before calling this feature operational.
+Test linking using a fresh short-lived code: website create → in-game `/verify CODE` → inspect displayed website identity → `/verify CODE confirm`. Verify Member users cannot issue control commands. Unlink and re-link only a test identity you control; never change existing Minecraft UUIDs/world player data. Verify a real statistics snapshot appears before calling this feature operational.
 
 ## Key recovery and archive inspection
 

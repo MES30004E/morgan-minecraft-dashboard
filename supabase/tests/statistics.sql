@@ -21,11 +21,15 @@ end $$;
 update public.profiles set statistics_public=true where id='11000000-0000-4000-8000-000000000001';
 do $$ begin if (select count(*) from public.player_statistics)<>0 then raise exception 'Viewer changed another profile privacy';end if;end $$;
 select set_config('request.jwt.claim.sub','11000000-0000-4000-8000-000000000001',true);
-do $$ begin if (select play_time_ticks from public.player_statistics)<>1200 then raise exception 'Owner cannot see collected stats';end if;end $$;
+do $$ begin
+ if public.player_access('22000000-0000-4000-8000-000000000001','44000000-0000-4000-8000-000000000001') is null then raise exception 'Own access details missing';end if;
+ if public.player_access('22000000-0000-4000-8000-000000000001','44000000-0000-4000-8000-000000000002') is not null then raise exception 'Unowned access details leaked';end if;
+ if (select play_time_ticks from public.player_statistics)<>1200 then raise exception 'Owner cannot see collected stats';end if;end $$;
 update public.profiles set statistics_public=true where id=auth.uid();
 select set_config('request.jwt.claim.sub','11000000-0000-4000-8000-000000000002',true);
 do $$ begin
  if (select count(*) from public.player_statistics)<>1 then raise exception 'Opt-in statistics not visible to approved viewer';end if;
+ if public.player_access('22000000-0000-4000-8000-000000000001','44000000-0000-4000-8000-000000000001') is not null then raise exception 'Private role linkage leaked';end if;
  if (select count(*) from public.mc_identities)<>0 then raise exception 'Sharing statistics leaked website identity association';end if;
 end $$;
 rollback;
