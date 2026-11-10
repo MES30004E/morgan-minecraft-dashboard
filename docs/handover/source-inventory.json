@@ -1,0 +1,401 @@
+{
+  "baseline": "8d83416bca89623ce6ea8307e35ececb81a20c1b",
+  "tables": {
+    "public.servers": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.profiles": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.roles": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.permissions": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.role_permissions": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.memberships": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.audit_events": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "public.commands": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "private.agents": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "public.snapshots": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "public.console_tail": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "public.backups": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "public.online_players": [
+      "supabase/migrations/20261110110054_separate_player_visibility.sql"
+    ],
+    "public.mc_identities": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.pairing_challenges": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "public.player_statistics": [
+      "supabase/migrations/20261110112510_player_statistics.sql"
+    ],
+    "private.archive_batches": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.archive_items": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.archive_snapshot_runs": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.archive_snapshot_rows": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.security_daily_rollups": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.used_command_requests": [
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.agent_health": [
+      "supabase/migrations/20261110120551_agent_archive_health.sql"
+    ],
+    "public.server_endpoints": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.identity_servers": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.identity_name_history": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.agent_readiness": [
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ],
+    "public.metric_samples": [
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ]
+  },
+  "functions": {
+    "private.allowed": [
+      "supabase/migrations/20261110103847_access_control.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.enqueue": [
+      "supabase/migrations/20261110103847_access_control.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.enqueue_command": [
+      "supabase/migrations/20261110103847_access_control.sql"
+    ],
+    "private.agent_server": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.request_membership": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.request_membership": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "private.manage_member": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.manage_member": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "private.set_role_permission": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.set_role_permission": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "private.claim_command": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql",
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ],
+    "public.claim_command": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "private.finish_command": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110111008_operations_recovery.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.finish_command": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "private.publish_snapshot": [
+      "supabase/migrations/20261110105752_community_operations.sql",
+      "supabase/migrations/20261110110054_separate_player_visibility.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql",
+      "supabase/migrations/20261110144701_observed_player_counts.sql"
+    ],
+    "public.publish_snapshot": [
+      "supabase/migrations/20261110105752_community_operations.sql"
+    ],
+    "private.resolve_uncertain": [
+      "supabase/migrations/20261110111008_operations_recovery.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.resolve_uncertain": [
+      "supabase/migrations/20261110111008_operations_recovery.sql"
+    ],
+    "private.publish_console": [
+      "supabase/migrations/20261110111008_operations_recovery.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.publish_console": [
+      "supabase/migrations/20261110111008_operations_recovery.sql"
+    ],
+    "private.begin_web_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "public.begin_web_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.begin_game_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.begin_game_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.claim_game_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "public.claim_game_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.verify_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.verify_link": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.unlink_game_identity": [
+      "supabase/migrations/20261110111409_identity_pairing.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.unlink_game_identity": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.game_profile": [
+      "supabase/migrations/20261110111409_identity_pairing.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.game_profile": [
+      "supabase/migrations/20261110111409_identity_pairing.sql"
+    ],
+    "private.may_view_stats": [
+      "supabase/migrations/20261110112510_player_statistics.sql",
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.record_player_stats": [
+      "supabase/migrations/20261110112510_player_statistics.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.record_player_stats": [
+      "supabase/migrations/20261110112510_player_statistics.sql"
+    ],
+    "private.publish_backups": [
+      "supabase/migrations/20261110112510_player_statistics.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.publish_backups": [
+      "supabase/migrations/20261110112510_player_statistics.sql"
+    ],
+    "private.archive_sha": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.archive_safe_audit": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.prepare_archive": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.prepare_archive": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.ack_archive": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql",
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "public.ack_archive": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.housekeeping": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.audit_security_summaries": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "public.audit_security_summaries": [
+      "supabase/migrations/20261110120248_archive_gated_retention.sql"
+    ],
+    "private.lock_agent_server": [
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "private.audit_storage_guard": [
+      "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql"
+    ],
+    "private.publish_agent_health": [
+      "supabase/migrations/20261110120551_agent_archive_health.sql"
+    ],
+    "public.publish_agent_health": [
+      "supabase/migrations/20261110120551_agent_archive_health.sql"
+    ],
+    "public.agent_identity": [
+      "supabase/migrations/20261110121619_agent_identity_and_profiles.sql"
+    ],
+    "public.player_access": [
+      "supabase/migrations/20261110122211_player_access_details.sql"
+    ],
+    "private.configure_server": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.configure_server": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.configure_endpoint": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.configure_endpoint": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.agent_call": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql",
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ],
+    "public.agent_call": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.begin_server_link": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.begin_server_link": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.claim_server_link": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "public.claim_server_link": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.is_agent_for": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.record_identity_name": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.agent_metrics": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql",
+      "supabase/migrations/20261110144701_observed_player_counts.sql"
+    ],
+    "public.agent_metrics": [
+      "supabase/migrations/20261110130459_multi_server_resources.sql"
+    ],
+    "private.server_readiness": [
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ],
+    "public.server_readiness": [
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ],
+    "private.sample_metrics": [
+      "supabase/migrations/20261110143649_staged_observation_and_metrics.sql"
+    ]
+  },
+  "source_files": {
+    "src/Community.tsx": "2f96ed4329adbb202fc3e371c770fbd213c473239879e03923303dfef139cc37",
+    "src/Fleet.tsx": "5c761d744f8f2ae5e0eab1ea8ad791313dc053f3dc286032b538168512cbc4e1",
+    "src/Linking.tsx": "8d005a0ad3a71efe3870f34847e68dde842668cc2dc0785276152fee334b7cda",
+    "src/ServerConfiguration.tsx": "ba23b757eb26e95ac1a12999f4a2bfc82b3700a6b3ac8067c6f7f42d44af48db",
+    "src/Statistics.tsx": "afe0660f394454ff75c14b2d9bc14021b3805b91dd6d51c3d4d5b6b27b7365f6",
+    "src/branding.ts": "0e6e5907c1b9bbaf133ada851cf2394e900ee0b30f1c6e3b65bfb07294e5af46",
+    "src/client.ts": "9eb7ab3f190f18f4d5815c65be2491e6b9a088397fd607943fe27e164ccefabd",
+    "src/components/ConsolePanel.tsx": "3d37b1fc06af1a4da754a1e020c5b6881321320cdcb526ffeda0d55724306684",
+    "src/components/DashboardShell.tsx": "5e5e431f50f58ad36cc65a87e8bb95a2c73e20da5dd3dc87b47207e101a45545",
+    "src/components/MetricCharts.tsx": "078c83bb7521569f9b8a29e8b68b64656822848277cf1a095e699962140649f7",
+    "src/components/PanelKit.tsx": "d2307569fc234cf28825cf7bcd6e4fac98864a0cb5311b4bb58198feae2a0b15",
+    "src/components/ui/alert-dialog.tsx": "e68ead222534ebb6cefe5ca6cfdcd42f1a7851e96eff0074306cf51454826570",
+    "src/components/ui/avatar.tsx": "0c5c48b8a1dff4fdc5ff9b6cb79cc9cd138682b7d86868068f571befe9675e88",
+    "src/components/ui/badge.tsx": "13a9380dfff853ee730c14a52df49f22aecd31f40f2998d7c1e7ec458b6e1650",
+    "src/components/ui/breadcrumb.tsx": "c75fcd3d9e8470188bc0dd4b27a2b26fff3ad42b9c9c534a953dc090ae2cba33",
+    "src/components/ui/button.tsx": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
+    "src/components/ui/card.tsx": "ef8305b12c3112dab42a4708b41b1ebcc042fa5ab4c20f039da8d45b09ed5059",
+    "src/components/ui/collapsible.tsx": "c6598e5584f4258b5d9fefadbc5ad6a66888ad58729f4b634a0bb2d9c513188b",
+    "src/components/ui/dialog.tsx": "0d2e82ed5e7040abda714a0471aff54535e05bad6249da049cc0c3bf3ae024e5",
+    "src/components/ui/dropdown-menu.tsx": "9b39f3c4f1164529b5feebe5c3189efe6ea38790e36a158b22e263e73b227a9f",
+    "src/components/ui/input.tsx": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
+    "src/components/ui/label.tsx": "b823de7355666bd6a6a2cf88a6630e436d021b38fdbef5b749fac0921b86f44d",
+    "src/components/ui/select.tsx": "962830436bd0b7ee50e556f0747e277d6a86869ed27d167516346b15f26309d8",
+    "src/components/ui/separator.tsx": "ad7d5403fe337160e41dbf04147896e448ae3a747b8d06660d627d74d60021bc",
+    "src/components/ui/sheet.tsx": "7e4e3e2a5976ad75c1e0f63624fb3748ad84b27ca1ec85c0a6d33e6f300dc80d",
+    "src/components/ui/sidebar.tsx": "9d503f3a07ba1101e527bb697216e747a37bc2a7ab1eaf92683bf8d1773ca7d2",
+    "src/components/ui/skeleton.tsx": "f51ce0fcd31e5c31437382e80ea0af94b4fc3d64221d27091d36824546780a43",
+    "src/components/ui/switch.tsx": "b43b0fd1a9a753d9aa777eeab68e468d37fa18a7ef74341c616c204160ea0390",
+    "src/components/ui/table.tsx": "b3298fc8c50e434bd307bd39b80b96053e8780f422996e8a6fb76d42ced473d8",
+    "src/components/ui/tabs.tsx": "e1df6e2f95ece373ca909c1d54b8ba8cf4c47dd425c1784bbb9a01c38dd0936b",
+    "src/components/ui/tooltip.tsx": "908d99c8aaea79508c94b48c3278a08856f32d1d4ce531860fde038fdacb7c9d",
+    "src/domain.ts": "177dd77e91c096505629bd543371ce56b147e3fbc89a524ee96e5802717d47b8",
+    "src/env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "src/hooks/use-mobile.ts": "ad0936f84f1df79d3697bfbff9c18f8ad58431c1cbaf2359c6a853b0fcc9f28b",
+    "src/main.tsx": "d22a9cebc63b97fe81e6a94300d1f82ef2011c1a19057fe63660c73b74798e36",
+    "src/servers.ts": "b76e748f10d803ba26fe34d60a76f2200c0a9dc38d5b4d4b642bd422cddb5dac",
+    "src/style.css": "ee61253ffebe1caa83ee69b473e8ce8b2d62349afb161bd9aa3c386cf7b75c98",
+    "src/telemetry.ts": "d111b0b6ad0edc86d045731bca726d5fd6ea0ca66b3350681a9e2a4f693df117",
+    "agent/agent.env.example": "63faa0899d40d2a9db37f77cb36eb605b36ce1710d30d59e94135506a67088d9",
+    "agent/archive_cli.py": "9abe5068ec9927963987c296efe19d1361f9d9a9bb0016de2c9ed31b892ea26e",
+    "agent/archive_store.py": "17bb06a029446350dd657bf5f013baead4d86e62333a482bfd9eb6bbd1d86fc0",
+    "agent/archive_worker.py": "3a9432ec12b09730d43ea283099408809bd9b33428cdd8f379761d50fdfa7e7a",
+    "agent/backups.py": "11f47abf281e55dcbc647885cee5a6dea4bb4a3952ba9d931f0567e061a0f49b",
+    "agent/control.py": "750e0e3a959bd4f0cc0b74ce0268dc8b16fbbb991588b3ad4eaf9c663d7410f2",
+    "agent/crafty.py": "4a3f98e78aaab87bd2973ef0eeaeb45c2613a69610738380ac143697406674f8",
+    "agent/gateway.py": "63a62fbd3ccd0739aa5fc371d19a931fb3a1dc879b78e695af672fdf11f80231",
+    "agent/main.py": "28588d334a6ded3995109a33a00fb730ddcd4481a4d6ba330b1b964abbb5f740",
+    "agent/morgan-minecraft-agent.service": "889f04d00a4aa969b752c205fba33b616ff85094c81476ce8bc6366cc1ba51c9",
+    "agent/requirements.in": "c587454f050c283dea966fbeaf8355f0cb64bc7609aad31b45c0088171117e3b",
+    "agent/requirements.lock": "f4f2bc71cd0c7f1d0052f845d01c3b7b167ca8db2da0f947bd23a484f2e91785",
+    "agent/server_config.py": "40df6ab83f1357bdae4e2b5ee248525c3026b278034bfe4aa0cb16649437373a",
+    "agent/servers.example.json": "00ee002ed161d7a7fac65b4fa5350780c9cc8d07a71d29803bde74b2c173d9e6",
+    "agent/tests/test_archives.py": "cf4523a666b5b645b2ec155efef6fa0b066520b9a2af56e3d4a00b4afd92c13b",
+    "agent/tests/test_backups.py": "9013bb5eed070e23b2ff1ccb6c17fd83e57662fc010c0eb8e824e16395f250c9",
+    "agent/tests/test_control.py": "deb815a83379457945e53d2e0b41b0bb307476a7ba93871ff2cf863cc25cc18e",
+    "agent/tests/test_crafty.py": "8500dc0dbf76d50c3fcda468be293daef6a4e068dec06c557bb3ce84a401b6ff",
+    "agent/tests/test_gateway.py": "65c4ff3175be65c44d8914e56f41bdcd9dde025ffa05a64208c7b396b0ae5a18",
+    "agent/tests/test_multi_server.py": "68a7eb0346c60226b581174a53ca2fd8b9828c25b77c8ae2b5507db0258ce1b8",
+    "agent/tests/test_observe.py": "4da41abbe887d69999ba158d8d33551f4aef31c5a6072c4eb2efa768b9ae8d5e",
+    "agent/tests/test_stage_preflight.py": "c193980780a2ae0b46a4490d9df6fe2c15bbacbf81e4c4d83077f07736517168",
+    "agent/tests/test_worker.py": "cf16434202f09d1cc615d8c6fe708ce713edecee1f25e8b01efda43fb6a05efe",
+    "agent/worker.py": "b054bd0c245bda7047f48250d6184526feb34d31fd51c5f2006107a9e192b6cc",
+    "fabric/src/main/java/community/morgan/BridgeProtocol.java": "30bac323fd4a6021873c816b8e54689761f32454e2d89f02a12218800eacb2be",
+    "fabric/src/main/java/community/morgan/IdentityBridge.java": "5cf0a13ca90b510ae00e5005392f304cf288c396533c970116dd956854fc09a8",
+    "fabric/src/main/resources/fabric.mod.json": "143d1387bf6eae0c4d164fbb30c976659915375491ba88ffffefc8faf80b7fae",
+    "fabric/src/test/java/community/morgan/BridgeProtocolTest.java": "845a8310efe65485b9ae8e5d6583b6f1c4b9c867e5f6dc7b326296ddd655a0b7",
+    "deploy/install-agent.sh": "19c60defc157d6e054f895134550fb98e9698d6b83b9ab9364c637ccc0c79dec",
+    "deploy/inventory-readonly.sh": "83321010af139cd011e65740b7734b704838c1d1c959d802e386edca2c9a8d2a",
+    "deploy/preflight.py": "c43be3721d153a3a4ec32c213153d291dc18d518b7e4d540b30ea6b0e4801dc9",
+    "deploy/validate-handover.py": "89ccaadd6758f58534ac1e5745ea67db6d6560f8f8de90d3ce91628a973897ed",
+    "deploy/setup-local-handover.sh": "ffc5da81e5de50b63a09e3576aeb9025a970ec332c67a5e6f525fa9e61088698"
+  }
+}

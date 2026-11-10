@@ -1,3 +1,5 @@
+> **Cross-account recovery:** start with [the complete handover](docs/handover/00-START-HERE.md) and [new-session prompt](docs/handover/13-NEW-CODEX-SESSION-PROMPT.md). The agent is not installed on Ubuntu.
+
 # Morgan Minecraft Dashboard
 
 Live frontend: https://mes30004e.github.io/morgan-minecraft-dashboard/

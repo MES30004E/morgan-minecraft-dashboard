@@ -1,0 +1,17 @@
+title = "Reviewed public routing key and synthetic rejection-fixture exceptions"
+[extend]
+useDefault = true
+[[allowlists]]
+description = "Supabase publishable routing key is intentionally public; it is not a privileged credential"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)agent/agent\.env\.example$''']
+regexTarget = "line"
+regexes = ['''SUPABASE_PUBLISHABLE_KEY=sb_publishable_dDZlVEtEIrMsyrUbV1C5bA_CR1_Czpj''']
+[[allowlists]]
+description = "Exact synthetic credential-rejection test; never accepts a general test-directory exception"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)agent/tests/test_archives\.py$''']
+regexTarget = "line"
+regexes = ['''for value in \['GOCSPX-abc123',\s*'sb_secret_123',\s*'Bearer secret',\s*'eyJhbGciOiJIUzI1NiJ9\.eyJzdWIiOiIxIn0\.signature'\]:''']

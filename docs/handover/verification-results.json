@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-10",
+  "source_baseline": "8d83416bca89623ce6ea8307e35ececb81a20c1b",
+  "candidate": "handover branch; resolve final SHA from Git",
+  "frontend_unit": {
+    "passed": 10,
+    "failed": 0,
+    "new_branding_test_red_green_observed": true
+  },
+  "python_unit": {
+    "passed": 65,
+    "failed": 0
+  },
+  "typescript_vite_build": {
+    "result": "PASS",
+    "warnings": "Client directive / bundle-size warnings; not full lint"
+  },
+  "java": {
+    "result": "PASS",
+    "protocol_tests": 2,
+    "minecraft_process_started": false
+  },
+  "secret_history": {
+    "tool": "Gitleaks8.30.1",
+    "commits": 19,
+    "initial_findings": 2,
+    "reviewed_false_positives": 2,
+    "final_unexpected_findings": 0,
+    "canary_detected": true
+  },
+  "browser": {
+    "baseline_overview_measurements": 16,
+    "page_overflow_failures": [
+      320,
+      360
+    ],
+    "other_measured_combinations_without_page_overflow": 14,
+    "engines": [
+      "Chrome"
+    ],
+    "physical_mobile_tested": false,
+    "full_accessibility_conformance_verified": false
+  },
+  "supabase": {
+    "project_status": "ACTIVE_HEALTHY",
+    "migrations": 15,
+    "bindings": 0,
+    "commands": 0,
+    "snapshots": 0,
+    "metric_samples": 0,
+    "live_write_based_tests_performed_this_handover": false
+  },
+  "database_ci": {
+    "suites": 9,
+    "fresh_handover_result": "Resolve final HEAD workflow results after publication; preparation does not attest future CI",
+    "historical_source_ci": "https://github.com/MES30004E/morgan-minecraft-dashboard/actions/runs/42838407976"
+  },
+  "secret_current_tree": "PASS: exact staged export scanned with reviewed narrow exceptions",
+  "artifacts": {
+    "baseline_pages_artifact_id": 13773914286,
+    "digest_verified": true,
+    "entries": [
+      "index.html",
+      "privacy.html",
+      "assets/index-DsbmuNFx.js",
+      "assets/MetricCharts-Bg3oLXZH.js",
+      "assets/index-CWO6hTrr.css"
+    ],
+    "private_or_runtime_entries": 0,
+    "gitleaks_scan": "PASS",
+    "new_candidate_dist_scan": "PASS (local build; baseline CI artifact separately verified)"
+  },
+  "ubuntu_modified": false,
+  "known_verification_gaps": [
+    "Actual Ubuntu/Crafty API/mount/TLS commissioning",
+    "Physical game/mod/archive operations",
+    "Firefox/WebKit/Safari/iOS/Android hardware",
+    "Full148edge-case E2E scenarios",
+    "Automated axe/Playwright baselines",
+    "Complete live DB/Auth/world/key backups"
+  ],
+  "dependencies": {
+    "npm_audit": "PASS",
+    "known_vulnerabilities": 0
+  }
+}

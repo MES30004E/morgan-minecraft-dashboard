@@ -1,0 +1,173 @@
+{
+  "source": "8d83416bca89623ce6ea8307e35ececb81a20c1b",
+  "state": "approved Owner; unknown/no agent; overview",
+  "engine": "Google Chrome; exact version not inspected",
+  "physicalDevice": false,
+  "measurements": [
+    {
+      "clientWidth": 305,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 640,
+      "mainLandmarks": 1,
+      "scrollWidth": 352,
+      "width": 320
+    },
+    {
+      "clientWidth": 345,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 740,
+      "mainLandmarks": 1,
+      "scrollWidth": 352,
+      "width": 360
+    },
+    {
+      "clientWidth": 360,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 667,
+      "mainLandmarks": 1,
+      "scrollWidth": 360,
+      "width": 375
+    },
+    {
+      "clientWidth": 375,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 844,
+      "mainLandmarks": 1,
+      "scrollWidth": 375,
+      "width": 390
+    },
+    {
+      "clientWidth": 399,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 896,
+      "mainLandmarks": 1,
+      "scrollWidth": 399,
+      "width": 414
+    },
+    {
+      "clientWidth": 415,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 932,
+      "mainLandmarks": 1,
+      "scrollWidth": 415,
+      "width": 430
+    },
+    {
+      "clientWidth": 585,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 800,
+      "mainLandmarks": 1,
+      "scrollWidth": 585,
+      "width": 600
+    },
+    {
+      "clientWidth": 753,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 1024,
+      "mainLandmarks": 1,
+      "scrollWidth": 753,
+      "width": 768
+    },
+    {
+      "clientWidth": 805,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 1180,
+      "mainLandmarks": 1,
+      "scrollWidth": 805,
+      "width": 820
+    },
+    {
+      "clientWidth": 1009,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 768,
+      "mainLandmarks": 1,
+      "scrollWidth": 1009,
+      "width": 1024
+    },
+    {
+      "clientWidth": 1265,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 720,
+      "mainLandmarks": 1,
+      "scrollWidth": 1265,
+      "width": 1280
+    },
+    {
+      "clientWidth": 1440,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 1000,
+      "mainLandmarks": 1,
+      "scrollWidth": 1440,
+      "width": 1440
+    },
+    {
+      "clientWidth": 1920,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 1080,
+      "mainLandmarks": 1,
+      "scrollWidth": 1920,
+      "width": 1920
+    },
+    {
+      "clientWidth": 2560,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 1440,
+      "mainLandmarks": 1,
+      "scrollWidth": 2560,
+      "width": 2560
+    },
+    {
+      "clientWidth": 829,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 390,
+      "mainLandmarks": 1,
+      "scrollWidth": 829,
+      "width": 844
+    },
+    {
+      "clientWidth": 1009,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 600,
+      "mainLandmarks": 1,
+      "scrollWidth": 1009,
+      "width": 1024
+    }
+  ],
+  "measurement_failures": [
+    {
+      "clientWidth": 305,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 640,
+      "mainLandmarks": 1,
+      "scrollWidth": 352,
+      "width": 320
+    },
+    {
+      "clientWidth": 345,
+      "disabledOperations": true,
+      "headings": 1,
+      "height": 740,
+      "mainLandmarks": 1,
+      "scrollWidth": 352,
+      "width": 360
+    }
+  ],
+  "scope": "Overview only; layout/landmark/disabled-controls measurements, not full interaction/device/AA coverage"
+}

@@ -14,3 +14,25 @@ __pycache__/
 *.db-wal
 *.pem
 *.key
+
+# Local handover/private information must stay outside this public tree.
+!.env.*.example
+private/
+.local-private/
+handover-private/
+*.private.json
+*.private.yaml
+*.private.yml
+*.secret
+*.secrets
+*.sqlite
+*.sqlite3
+local-exports/
+private-exports/
+*.key.enc
+credentials/
+secrets/
+agent-state/
+# macOS metadata (especially on non-native external volumes)
+.DS_Store
+._*

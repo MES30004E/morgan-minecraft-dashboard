@@ -1,0 +1,131 @@
+{
+  "project": "Minecraft Console",
+  "canonical_repository": "https://github.com/MES30004E/morgan-minecraft-dashboard",
+  "pages_url": "https://mes30004e.github.io/morgan-minecraft-dashboard/",
+  "source_baseline": "8d83416bca89623ce6ea8307e35ececb81a20c1b",
+  "handover_commit_resolution": "Resolve git rev-parse HEAD and final local release report; cannot embed self-referential commit SHA",
+  "date": "2026-11-10",
+  "supabase_public_project_ref": "iyhtknyrecnythgyuvbq",
+  "hosted_status_observed": "ACTIVE_HEALTHY",
+  "operational_counts_observed": {
+    "agents": 0,
+    "commands": 0,
+    "snapshots": 0,
+    "metric_samples": 0,
+    "server_configurations": 2
+  },
+  "migrations": [
+    {
+      "version": "20261110103847",
+      "file": "supabase/migrations/20261110103847_access_control.sql",
+      "sha256": "8a28fc2cbfe608a03c3bc4f3f120eb03ba50f0ca9f54fc024dc9df2ce8bd4aa6"
+    },
+    {
+      "version": "20261110105752",
+      "file": "supabase/migrations/20261110105752_community_operations.sql",
+      "sha256": "c77fd8ef99a686417a9a346797319c90234e15714a2bcee2d952311d86531880"
+    },
+    {
+      "version": "20261110110054",
+      "file": "supabase/migrations/20261110110054_separate_player_visibility.sql",
+      "sha256": "350ff7584d1ade7045d36a98b0152849611a7a0440a73663c49233e3d86528f8"
+    },
+    {
+      "version": "20261110111008",
+      "file": "supabase/migrations/20261110111008_operations_recovery.sql",
+      "sha256": "acd30f7f873576c6bfe4ea2c9272543247ddb03a482c125fca71a7699b91a24c"
+    },
+    {
+      "version": "20261110111409",
+      "file": "supabase/migrations/20261110111409_identity_pairing.sql",
+      "sha256": "e30b2006a605de76c7a0a9ccbb83a2df1af3ae193bac4aae772962c82244dbf5"
+    },
+    {
+      "version": "20261110112510",
+      "file": "supabase/migrations/20261110112510_player_statistics.sql",
+      "sha256": "80db9907fbc97c896b9af4b400a7e4bce54050ed5eaea2462a22522a24873f41"
+    },
+    {
+      "version": "20261110120248",
+      "file": "supabase/migrations/20261110120248_archive_gated_retention.sql",
+      "sha256": "97897be26ab2aa296d12e7e69e01a05d80bbb636884eb555acca9ce9cdafbe44"
+    },
+    {
+      "version": "20261110120421",
+      "file": "supabase/migrations/20261110120421_replay_and_revocation_hardening.sql",
+      "sha256": "c3d55d83b5b364957e7ea59d361b7f835cfa703cd1bc67f5de5585e6b05d22c1"
+    },
+    {
+      "version": "20261110120551",
+      "file": "supabase/migrations/20261110120551_agent_archive_health.sql",
+      "sha256": "2488d32539272138347526c3ea97f1e55566a6f84aed5799348de5c03e80f2b1"
+    },
+    {
+      "version": "20261110121615",
+      "file": "supabase/migrations/20261110121615_verified_retention_schedule.sql",
+      "sha256": "ed6913dbe0cbce6dd45999f2cd6c8803d7aaa64e0c0173e75ecd0122633ac12b"
+    },
+    {
+      "version": "20261110121619",
+      "file": "supabase/migrations/20261110121619_agent_identity_and_profiles.sql",
+      "sha256": "14fb8011cc974e940b7b4562494b8ad4fda514b9a67832138a383b1544b01fac"
+    },
+    {
+      "version": "20261110122211",
+      "file": "supabase/migrations/20261110122211_player_access_details.sql",
+      "sha256": "d50a520117e2a2b1936f12cba8605602f5c15322ab1aa96e5f44aba3d6b44235"
+    },
+    {
+      "version": "20261110130459",
+      "file": "supabase/migrations/20261110130459_multi_server_resources.sql",
+      "sha256": "6ac8d77f9ad64472747c3e5fc5145f9922a47e5494c22451434c5501f8447ce7"
+    },
+    {
+      "version": "20261110143649",
+      "file": "supabase/migrations/20261110143649_staged_observation_and_metrics.sql",
+      "sha256": "3c5972d58bf0593b82dd382403ed73b84598910b77f833c8aa69a15b829513f6"
+    },
+    {
+      "version": "20261110144701",
+      "file": "supabase/migrations/20261110144701_observed_player_counts.sql",
+      "sha256": "40000f6dcbd4e12c52807f1d99addaf262cb97cc318c87c0bcbd0a4b5c2adcc7"
+    }
+  ],
+  "feature_summary": {
+    "requested": 191,
+    "implemented_in_code": 130,
+    "unit_tested": 93,
+    "deployed": 42,
+    "connected_to_live_infrastructure": 0,
+    "end_to_end_verified": 0,
+    "features": 191,
+    "blocked": 103,
+    "outstanding": 191
+  },
+  "edge_cases": 148,
+  "entry_point": "docs/handover/00-START-HERE.md",
+  "continuation_prompt": "docs/handover/13-NEW-CODEX-SESSION-PROMPT.md",
+  "no_secret_values_exported": true,
+  "private_index": "Outside Git; locate through local README, never auto-upload",
+  "ubuntu_mutations_performed": false,
+  "required_chapters": [
+    "00-START-HERE.md",
+    "01-COMPLETE-REQUIREMENTS.md",
+    "02-FEATURE-STATUS-MATRIX.md",
+    "03-ARCHITECTURE.md",
+    "04-SUPABASE-AND-DATABASE.md",
+    "05-FRONTEND-AND-UX.md",
+    "06-UBUNTU-INFRASTRUCTURE.md",
+    "07-AGENT-AND-FABRIC.md",
+    "08-SECURITY-AND-THREAT-MODEL.md",
+    "09-TESTING-AND-VERIFICATION.md",
+    "10-DEPLOYMENT-AND-RECOVERY.md",
+    "11-DECISIONS-AND-HISTORY.md",
+    "12-ROADMAP-AND-OUTSTANDING-WORK.md",
+    "13-NEW-CODEX-SESSION-PROMPT.md",
+    "14-CONNECTIONS-AND-SECRETS-CHECKLIST.md",
+    "15-BRANDING-AND-UI-REQUIREMENTS.md",
+    "16-DEVICE-BROWSER-AND-EDGE-CASE-TESTING.md",
+    "17-HANDOVER-VALIDATION.md"
+  ]
+}
