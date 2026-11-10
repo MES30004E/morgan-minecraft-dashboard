@@ -23,8 +23,8 @@ PYTHONPATH=agent python3 -m unittest discover -s agent/tests -v
 ## Next milestones
 
 See `docs/superpowers/plans/2026-11-10-dashboard.md` and `docs/requirements.md`.
-Cloud provisioning awaits the organization selection required by the Supabase
-project creation tool. Google OAuth, verified email delivery, database/RLS,
+Supabase project provisioning and the initial database/RLS migration are complete.
+See `docs/cloud-status.md` for the verified scope. Google OAuth, verified email delivery,
 frontend, Fabric integration, systemd service and end-to-end tests remain open.
 
 No Ubuntu server changes are authorized until the installation plan has been
