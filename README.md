@@ -1,31 +1,22 @@
 # Morgan Minecraft Dashboard
 
-Implementation in progress. **There is no deployed dashboard yet.**
+Live frontend: https://mes30004e.github.io/morgan-minecraft-dashboard/
 
-## Verified milestone
+React/TypeScript on GitHub Pages, Supabase Auth/PostgreSQL/RLS/Realtime, an outbound-only Python Crafty agent, and an optional server-only Fabric identity/statistics bridge. Browser users need no client software. Current roles are configurable permission templates; database RPCs enforce current membership, operation allowlists, expiry, rate limits and replay protection.
 
-The Python agent safety core validates a strict operation envelope and uses a
-durable SQLite journal before dispatch. Duplicate deliveries are suppressed,
-including across restarts. Lost responses and execution exceptions remain
-`uncertain`, requiring reconciliation instead of automatic replay.
+**The cloud is deployed; the Ubuntu agent and Fabric module are not installed.** No real Minecraft control, linking or statistics collection has been verified yet. Controls stay unavailable without a fresh agent heartbeat. Owner Google login has been tested. Google audience publication and SMTP delivery have separate setup requirements; see the deployment record.
 
-This module is not yet an installed agent or a Crafty integration. Do not connect
-an executor until database authorization, agent identity, expiry and Crafty TLS
-verification are implemented and tested together. Keep its journal on persistent
-local storage with permissions restricted to the service user.
+Review [Ubuntu installation](docs/ubuntu-installation.md) before approving any laptop changes. See [cloud status](docs/cloud-status.md), [maintenance](docs/maintenance.md), [archive recovery](docs/archives.md) and [archive protocol](docs/archive-cloud.md).
 
-Run the tests from this directory:
+## Verification
 
-```sh
-PYTHONPATH=agent python3 -m unittest discover -s agent/tests -v
+```bash
+npm ci
+npm test
+npm run build
+python3 -m venv .venv
+.venv/bin/pip install --require-hashes -r agent/requirements.lock
+PYTHONPATH=agent .venv/bin/python -m unittest discover -s agent/tests -v
 ```
 
-## Next milestones
-
-See `docs/superpowers/plans/2026-11-10-dashboard.md` and `docs/requirements.md`.
-Supabase project provisioning and the initial database/RLS migration are complete.
-See `docs/cloud-status.md` for the verified scope. Google OAuth, verified email delivery,
-frontend, Fabric integration, systemd service and end-to-end tests remain open.
-
-No Ubuntu server changes are authorized until the installation plan has been
-presented and separately approved. Preserve online-mode=true and existing worlds.
+Database CI applies every migration on PostgreSQL 17 and tests RLS, role changes, rate limits, identity pairing, archive failures, statistics privacy, retention replay and a real concurrent permission-revocation race. Fabric CI builds on Java 21 and runs authenticated bridge protocol tests. GitHub Pages deployment requires all these checks. Never commit `.env`, credentials, service-role keys, user exports or archive keys.

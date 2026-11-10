@@ -8,6 +8,7 @@ import random
 import signal
 import stat
 import time
+from datetime import datetime,timezone
 from pathlib import Path
 from supabase import acreate_client, AsyncClientOptions
 from control import Journal
@@ -24,17 +25,20 @@ def log(event,**fields):
     print(json.dumps(dict(event=event,**fields)),flush=True)
 
 
-async def archive_loop(cloud,stop,store):
+async def archive_loop(cloud,stop,store,status):
     archiver=DailyArchiver(store)
     while not stop.is_set():
         delay=86400
         try:
+            status['archive_state']='running'
             store.prune()
             counts=await archiver.run_once(cloud)
+            status.update(archive_state='ok',last_archive_success=datetime.now(timezone.utc).isoformat())
             log('archives_verified',batches=counts,**store.health())
         except Exception as error:
             # Failure never acknowledges the failed batch or permits deletion.
             delay=3600
+            status['archive_state']='failed'
             log('archive_failed',error_type=type(error).__name__)
         try:await asyncio.wait_for(stop.wait(),timeout=delay)
         except asyncio.TimeoutError:pass
@@ -47,12 +51,15 @@ async def serve():
     fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     journal=Journal(state/'executions.db')
     archive_store=None
+    archive_status=dict(archive_state='disabled',archive_bytes=None,quota_bytes=None,disk_free_bytes=None,last_archive_success=None)
     if os.environ.get('ENABLE_ARCHIVES','false').lower()=='true':
         try:
             archive_store=LocalArchiveStore(Path(os.environ.get('ARCHIVE_DIRECTORY','/var/lib/morgan-minecraft/archives')),
                 private_read(Path(os.environ.get('ARCHIVE_KEY_FILE','/etc/morgan-minecraft-agent/archive.key'))),
                 max_bytes=int(os.environ.get('ARCHIVE_MAX_BYTES','1073741824')))
-        except Exception as error:log('archive_configuration_failed',error_type=type(error).__name__)
+        except Exception as error:
+            archive_status['archive_state']='failed'
+            log('archive_configuration_failed',error_type=type(error).__name__)
     crafty=Crafty(os.environ['CRAFTY_URL'],os.environ['CRAFTY_SERVER_ID'],os.environ['CRAFTY_TOKEN'],os.environ['CRAFTY_CA_FILE'])
     stop=asyncio.Event();wake=asyncio.Event()
     loop=asyncio.get_running_loop()
@@ -86,7 +93,7 @@ async def serve():
                 await channel.on_postgres_changes('INSERT',schema='public',table='commands',callback=lambda payload:wake.set()).subscribe(lambda status,error:wake.set())
                 wake.set();last_metrics=0;last_backups=0;last_auth=time.monotonic();delay=2
                 log('connected')
-                if archive_store:archive_task=asyncio.create_task(archive_loop(cloud,stop,archive_store))
+                if archive_store:archive_task=asyncio.create_task(archive_loop(cloud,stop,archive_store,archive_status))
                 while not stop.is_set():
                     wake.clear()
                     if time.monotonic()-last_auth>=1800:
@@ -98,6 +105,13 @@ async def serve():
                             snapshot=dict(server_state='unknown',cpu=None,memory=None,uptime=None,online_players=[])
                             log('crafty_unavailable')
                         await cloud.rpc('publish_snapshot',snapshot).execute()
+                        if archive_store:
+                            try:
+                                health=archive_store.health()
+                                archive_status.update(archive_bytes=health['used_bytes'],quota_bytes=health['max_bytes'],disk_free_bytes=health['disk_free_bytes'])
+                            except Exception:
+                                archive_status['archive_state']='failed'
+                        await cloud.rpc('publish_agent_health',archive_status).execute()
                         if os.environ.get('UPLOAD_CONSOLE','false').lower()=='true':
                             try:
                                 lines=await asyncio.to_thread(crafty.console)

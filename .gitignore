@@ -6,6 +6,7 @@ dist/
 supabase/.temp/
 fabric/.gradle/
 fabric/build/
+.venv/
 __pycache__/
 *.pyc
 *.db

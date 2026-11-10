@@ -11,6 +11,7 @@ User=morgan-agent
 Group=morgan-agent
 SupplementaryGroups=morgan-minecraft-link
 EnvironmentFile=/etc/morgan-minecraft-agent/agent.env
+Environment=PYTHONDONTWRITEBYTECODE=1
 ExecStart=/opt/morgan-minecraft-agent/.venv/bin/python /opt/morgan-minecraft-agent/agent/main.py
 WorkingDirectory=/opt/morgan-minecraft-agent
 StateDirectory=morgan-minecraft-agent
