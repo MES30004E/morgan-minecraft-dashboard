@@ -1,3 +1,5 @@
+Multi-server update: review [multi-server operation](multi-server.md) together with this plan. Archive and journal paths now include the server UUID; the preflight drops to the service user before creating application state.
+
 # Ubuntu installation plan — approval required
 
 Nothing in this plan has been run on the Minecraft laptop. Review and approve this plan before executing any commands. It creates a dedicated unprivileged agent, private encrypted archives and a systemd service. It opens no inbound ports and grants no Docker socket or shell execution capability. Existing worlds, Crafty schedules, playit and network failover remain in place.
@@ -33,9 +35,10 @@ cd /opt/morgan-minecraft-agent
 sudo git checkout --detach REVIEWED_COMMIT
 sudo bash deploy/install-agent.sh --approved-install
 sudoedit /etc/morgan-minecraft-agent/agent.env
+sudoedit /etc/morgan-minecraft-agent/servers.json
 ```
 
-In that root-only file enter `AGENT_EMAIL`, `AGENT_PASSWORD`, `CRAFTY_TOKEN`, the confirmed server ID and trusted CA path. Install the locally verified CA as `/etc/morgan-minecraft-agent/crafty-ca.pem`, readable by the agent. Keep `ENABLE_LINK_BRIDGE=false`, `UPLOAD_CONSOLE=false` initially; set `ENABLE_ARCHIVES=true`. The independent 32-byte archive key is created by the installer; do not replace it on upgrades. The bridge key is different and is the only key shared with Minecraft. Do not paste credentials into chat or shell commands.
+In the root-only environment file enter `AGENT_EMAIL`, `AGENT_PASSWORD`, `CRAFTY_TOKEN`, the trusted CA path. In `servers.json`, confirm each dashboard UUID → Crafty UUID mapping; optional per-server credentials override environment defaults. Install the locally verified CA as `/etc/morgan-minecraft-agent/crafty-ca.pem`, readable by the agent. Keep `upload_console:false` and omit bridge fields in the private server mapping initially; set `ENABLE_ARCHIVES=true`. The independent 32-byte archive key is created by the installer; do not replace it on upgrades. The bridge key is different and is the only key shared with Minecraft. Do not paste credentials into chat or shell commands.
 
 ```bash
 sudo chown root:morgan-agent /etc/morgan-minecraft-agent/crafty-ca.pem
@@ -55,11 +58,11 @@ Validate the live dashboard receives a real heartbeat, metrics and player data. 
 
 ## Phase 2: optional console, backup metadata and Fabric linking
 
-Only after reviewing the actual Crafty compose file, container user/group IDs and host paths: grant the agent read-only access to the existing ZIP backup directory and configure `BACKUP_DIRECTORY`. Do not change Crafty's six-hour backups. Console upload is opt-in because it can include player messages; set `UPLOAD_CONSOLE=true` only after reviewing redaction and privacy.
+Only after reviewing the actual Crafty compose file, container user/group IDs and host paths: grant the agent read-only access to the existing ZIP backup directory and configure that mapping’s `backup_directory`. Do not change Crafty's six-hour backups. Console upload is opt-in because it can include player messages; set `upload_console:true` in the corresponding private server mapping only after reviewing redaction and privacy.
 
 The server-only Fabric module provides `/link`, `/register`, `/verify`, `/profile`, `/unlink` and statistics without client installation. Back up the current mods/config and verify the most recent Crafty backup first. In a maintenance window, add the built mod and compatible Fabric API to the existing Minecraft mods directory. Keep `online-mode=true`; do not install hybrid/offline authentication mods alongside this bridge. The current bridge trusts the normal online-mode identity boundary; hybrid support needs a separate authentication attestation design and isolated tests.
 
-Bind mount the **directory** `/var/lib/morgan-minecraft-link` into the Crafty Minecraft container at the same path, read-only. Allow the Minecraft process's supplemental group to read the bridge key and connect to the mode-0660 socket. Do not mount `/etc/morgan-minecraft-agent`, archive keys, the Docker socket or the complete agent state into the container. The shared host directory is stable across service restarts. Exact compose edits depend on your existing installation and are intentionally not fabricated here. Review them before any container recreation. Set `ENABLE_LINK_BRIDGE=true`, restart only the agent, then perform the separately approved Minecraft maintenance restart.
+Create a separate socket/key directory and Unix group per server. Bind mount **only that server’s subdirectory**, never the parent containing other servers’ keys. See multi-server.md before editing Docker mounts. Allow the Minecraft process's supplemental group to read the bridge key and connect to the mode-0660 socket. Do not mount `/etc/morgan-minecraft-agent`, archive keys, the Docker socket or the complete agent state into the container. The shared host directory is stable across service restarts. Exact compose edits depend on your existing installation and are intentionally not fabricated here. Review them before any container recreation. Configure its private `link_socket`, `link_key_file` and distinct `link_group` as described in multi-server.md, restart only the agent, then perform the separately approved Minecraft maintenance restart.
 
 Test linking using a fresh short-lived code: website create → in-game `/verify CODE` → inspect displayed website identity → `/verify CODE confirm`. Verify Member users cannot issue control commands. Unlink and re-link only a test identity you control; never change existing Minecraft UUIDs/world player data. Verify a real statistics snapshot appears before calling this feature operational.
 
@@ -69,8 +72,8 @@ Create an encrypted recovery key copy before relying on archive deletion. Run fr
 
 ```bash
 sudo -u morgan-agent .venv/bin/python agent/archive_cli.py --key-file /etc/morgan-minecraft-agent/archive.key wrap-key --output /var/lib/morgan-minecraft-agent/archive-recovery.key.enc
-sudo -u morgan-agent .venv/bin/python agent/archive_cli.py --root /var/lib/morgan-minecraft/archives --key-file /etc/morgan-minecraft-agent/archive.key inspect
-sudo -u morgan-agent .venv/bin/python agent/archive_cli.py --root /var/lib/morgan-minecraft/archives --key-file /etc/morgan-minecraft-agent/archive.key health
+sudo -u morgan-agent .venv/bin/python agent/archive_cli.py --root /var/lib/morgan-minecraft/archives/c18848e0-5448-433a-909d-804ad3680713 --key-file /etc/morgan-minecraft-agent/archive.key inspect
+sudo -u morgan-agent .venv/bin/python agent/archive_cli.py --root /var/lib/morgan-minecraft/archives/c18848e0-5448-433a-909d-804ad3680713 --key-file /etc/morgan-minecraft-agent/archive.key health
 ```
 
 Move a protected copy of the encrypted recovery key off the laptop. See [archives.md](archives.md) for search, decrypt, restore rehearsal, TTLs and optional WD Passport mirrors. A NAS is optional; no writable share is assumed. Do not place plaintext exports in the Minecraft directory.

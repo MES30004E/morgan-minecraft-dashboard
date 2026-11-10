@@ -75,4 +75,5 @@ jobs:
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/replay.sql
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/statistics.sql
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/health.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/multi_server.sql
       - run: bash supabase/tests/revocation-race.sh

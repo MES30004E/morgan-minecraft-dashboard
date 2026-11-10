@@ -2,7 +2,7 @@
 
 Live frontend: https://mes30004e.github.io/morgan-minecraft-dashboard/
 
-React/TypeScript on GitHub Pages, Supabase Auth/PostgreSQL/RLS/Realtime, an outbound-only Python Crafty agent, and an optional server-only Fabric identity/statistics bridge. Browser users need no client software. Current roles are configurable permission templates; database RPCs enforce current membership, operation allowlists, expiry, rate limits and replay protection.
+React/TypeScript on GitHub Pages, Supabase Auth/PostgreSQL/RLS/Realtime, an outbound-only Python Crafty agent, and an optional server-only Fabric identity/statistics bridge. Browser users need no client software. Multiple servers share one website and Auth account, with independent permissions and locally authorised Crafty mappings. See [multi-server operation](docs/multi-server.md). Current roles are configurable permission templates; database RPCs enforce current membership, operation allowlists, expiry, rate limits and replay protection.
 
 **The cloud is deployed; the Ubuntu agent and Fabric module are not installed.** No real Minecraft control, linking or statistics collection has been verified yet. Controls stay unavailable without a fresh agent heartbeat. Owner Google login has been tested. Google audience publication and SMTP delivery have separate setup requirements; see the deployment record.
 

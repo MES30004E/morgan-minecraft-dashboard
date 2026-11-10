@@ -9,6 +9,7 @@ insert into public.roles(id,server_id,name) values('33000000-0000-4000-8000-0000
 insert into public.role_permissions values('33000000-0000-4000-8000-000000000001','players.view');
 insert into public.memberships values('22000000-0000-4000-8000-000000000001','11000000-0000-4000-8000-000000000002','33000000-0000-4000-8000-000000000001','approved');
 insert into public.mc_identities(minecraft_uuid,user_id,username) values('44000000-0000-4000-8000-000000000001','11000000-0000-4000-8000-000000000001','Steve');
+insert into public.identity_servers(server_id,minecraft_uuid) values('22000000-0000-4000-8000-000000000001','44000000-0000-4000-8000-000000000001');
 insert into private.agents values('11000000-0000-4000-8000-000000000003','22000000-0000-4000-8000-000000000001',true);
 set local role authenticated;
 select set_config('request.jwt.claim.sub','11000000-0000-4000-8000-000000000003',true);

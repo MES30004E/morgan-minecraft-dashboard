@@ -43,6 +43,9 @@ install -o morgan-agent -g morgan-minecraft-link -m 0640 /etc/morgan-minecraft-a
 if [[ ! -e /etc/morgan-minecraft-agent/agent.env ]]; then
   install -o root -g root -m 0600 "$repo_dir/agent/agent.env.example" /etc/morgan-minecraft-agent/agent.env
 fi
+if [[ ! -e /etc/morgan-minecraft-agent/servers.json ]]; then
+  install -o root -g morgan-agent -m 0640 "$repo_dir/agent/servers.example.json" /etc/morgan-minecraft-agent/servers.json
+fi
 python3 -m venv "$repo_dir/.venv"
 "$repo_dir/.venv/bin/python" -m pip install --no-cache-dir --require-hashes -r "$repo_dir/agent/requirements.lock"
 install -o root -g root -m 0644 "$repo_dir/agent/morgan-minecraft-agent.service" /etc/systemd/system/morgan-minecraft-agent.service
