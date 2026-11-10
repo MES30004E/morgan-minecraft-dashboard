@@ -3,7 +3,7 @@ import {supabase} from './client';
 import {connectionState,formatDuration} from './domain';
 import {Linking} from './Linking';
 import {Statistics} from './Statistics';
-import {serverRoute} from './servers';
+import {serverRoute,serverTables} from './servers';
 import {ServerConfiguration,type GameServer,type Endpoint} from './ServerConfiguration';
 type Row=Record<string,any>;
 export function Community({userId,server,view,endpoints,onConfigurationChange}:{userId:string;server:GameServer;view:string;endpoints:Endpoint[];onConfigurationChange:()=>void}){
@@ -12,9 +12,7 @@ export function Community({userId,server,view,endpoints,onConfigurationChange}:{
  const [message,setMessage]=useState(''),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[clock,setClock]=useState(Date.now());
  const retry=useRef<{signature:string;id:string}|null>(null);
  async function load(details=true){
-  const tables=['servers','memberships','roles','role_permissions','snapshots','agent_health'];
-  if(details){if(tab==='players'||tab.startsWith('player/'))tables.push('online_players','player_statistics');if(tab==='console')tables.push('console_tail');if(tab==='backups')tables.push('backups');if(tab==='activity')tables.push('commands','audit_events');}
-  else if(tab==='players')tables.push('online_players');
+  const tables=serverTables(tab,details);
   const results=await Promise.all(tables.map(t=>{
    let query=supabase.from(t).select('*');
    if(t==='servers')query=query.eq('id',SERVER);else if(t!=='role_permissions')query=query.eq('server_id',SERVER);

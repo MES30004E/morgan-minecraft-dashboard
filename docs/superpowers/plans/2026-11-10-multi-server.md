@@ -21,9 +21,9 @@ No Ubuntu changes, paid services, arbitrary paths/commands from the website, wor
 
 ## Tasks
 
-- [ ] Database: write multi_server.sql regression tests, observe failure, implement resource/endpoint configuration RPCs, multi-agent mappings and scoped dispatcher, pairing associations/history, archive-aware lifecycle; run old and new SQL suites on rollback fixtures and CI.
-- [ ] Agent: write scope/config tests, observe failure; add local-only config validation, scoped RPC adapter, multi-server supervisor and per-server state/bridge/archive routing. Test mismatch rejection and independent dispatch/recovery.
-- [ ] Frontend: write route/selection tests, observe failure; add permitted-server overview and selector, configuration UI, server-specific bookmark routes and scoped child components; test/build and live smoke test.
+- [x] Database: write multi_server.sql regression tests, observe failure, implement resource/endpoint configuration RPCs, multi-agent mappings and scoped dispatcher, pairing associations/history, archive-aware lifecycle; run old and new SQL suites on rollback fixtures and CI.
+- [x] Agent: write scope/config tests, observe failure; add local-only config validation, scoped RPC adapter, multi-server supervisor and per-server state/bridge/archive routing. Test mismatch rejection and independent dispatch/recovery.
+- [x] Frontend: write route/selection tests, observe failure; add permitted-server overview and selector, configuration UI, server-specific bookmark routes and scoped child components; test/build and live smoke test.
 - [ ] Verification: independent whole-change security review, fix important findings with regression tests, run CI, apply tested forward migrations, deploy Pages, update installation/maintenance evidence. No real server operation until separate installation approval.
 
 ## Ledger
@@ -35,3 +35,7 @@ Database, agent and frontend implementation complete for review. New multi-serve
 
 Final review: Important duplicate Crafty target via URL aliases — reproduced RED, normalized loopback aliases/ports/trailing slash/environment fallback. Reviewer-rated minor game-first root link regraded Important because it breaks second-server registration — regression RED, scoped bookmark added. No deferred minors. CI also reproduced suspended-membership metadata visibility regression; narrowed metadata exception to pending membership, preserving prior revocation expectations.
 Final rulings on reviewed nonfindings: existing target/claim-token checks remain; keyed frontend instances discard stale responses; local config remains routing authority; in-flight operations may finish after archival; official UUID ownership survives server unlink; quotas are bounds, not a promise ten busy servers fit Free; per-server bridge mounts/groups need live validation; real-game verification stays outside current installation authorization.
+
+Free-tier verification: heartbeat refresh previously reread all permitted role metadata, which becomes expensive with many server roles. Added RED→GREEN query-budget regression and restricted heartbeat requests to snapshot/health/presence; console/audit/role configuration remain explicit refreshes.
+
+Hosted migration applied as 20261110130459_multi_server_resources after all verification-branch CI jobs passed. Cloud metadata now names the existing resource Morgan's Test Server. No Ubuntu changes.
