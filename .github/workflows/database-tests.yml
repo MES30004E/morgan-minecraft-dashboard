@@ -3,6 +3,46 @@ on: [push, pull_request]
 permissions:
   contents: read
 jobs:
+  regression-baseline:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: dashboard_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: ci-only-password
+      PGDATABASE: dashboard_test
+    steps:
+      - uses: actions/checkout@v4
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/bootstrap.sql
+      - run: |
+          for migration in supabase/migrations/*.sql; do
+            if [[ "$migration" != *replay_and_revocation_hardening.sql ]]; then
+              psql -v ON_ERROR_STOP=1 -f "$migration"
+            fi
+          done
+      - name: Prove the concurrency regression catches the old implementation
+        run: |
+          if bash supabase/tests/revocation-race.sh > /tmp/revocation-baseline.log 2>&1; then
+            cat /tmp/revocation-baseline.log
+            exit 1
+          fi
+          rg 'Revoked owner performed a privileged operation' /tmp/revocation-baseline.log
+      - name: Prove the retention replay regression catches the old implementation
+        run: |
+          if psql -v ON_ERROR_STOP=1 -f supabase/tests/replay.sql > /tmp/replay-baseline.log 2>&1; then
+            cat /tmp/replay-baseline.log
+            exit 1
+          fi
+          rg 'Old operation replayed after cloud retention' /tmp/replay-baseline.log
   authorization:
     runs-on: ubuntu-latest
     services:
@@ -29,3 +69,8 @@ jobs:
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/bootstrap.sql
       - run: for migration in supabase/migrations/*.sql; do psql -v ON_ERROR_STOP=1 -f "$migration"; done
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/access_control.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/operations.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/pairing.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/archiving.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/replay.sql
+      - run: bash supabase/tests/revocation-race.sh

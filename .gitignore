@@ -4,6 +4,8 @@
 node_modules/
 dist/
 supabase/.temp/
+fabric/.gradle/
+fabric/build/
 __pycache__/
 *.pyc
 *.db

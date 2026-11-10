@@ -1,0 +1,41 @@
+[Unit]
+Description=Morgan Minecraft outbound control agent
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=morgan-agent
+Group=morgan-agent
+SupplementaryGroups=morgan-minecraft-link
+EnvironmentFile=/etc/morgan-minecraft-agent/agent.env
+ExecStart=/opt/morgan-minecraft-agent/.venv/bin/python /opt/morgan-minecraft-agent/agent/main.py
+WorkingDirectory=/opt/morgan-minecraft-agent
+StateDirectory=morgan-minecraft-agent
+StateDirectoryMode=0700
+ReadWritePaths=/var/lib/morgan-minecraft-link /var/lib/morgan-minecraft/archives
+UMask=0077
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+LockPersonality=true
+MemoryMax=256M
+TasksMax=32
+Nice=10
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target

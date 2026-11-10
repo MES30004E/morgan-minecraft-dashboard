@@ -1,0 +1,2 @@
+supabase==2.34.1
+cryptography==50.0.2
