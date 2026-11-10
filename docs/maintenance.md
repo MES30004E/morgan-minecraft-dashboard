@@ -29,3 +29,9 @@ For ambiguous commands inspect Crafty and the persistent SQLite journal; use the
 ## Optional hybrid authentication
 
 Initial deployment requires normal Mojang online authentication. EasyAuth's upstream documentation describes Fabric/premium/offline modes, but this does not establish safe compatibility with this exact server and bridge. Do not toggle online-mode, replace UUIDs, migrate player data or install hybrid authentication in production under this plan. A later project must establish authenticated player attestation, namespace collision protection, operator/whitelist handling, and test copied worlds in isolation before enabling website linking for hybrid identities. No Minecraft gameplay/redstone mechanics are changed by this dashboard module.
+
+## Observation release
+
+Initial host configuration is now observation-only (`controls_enabled:false`). Private registry bindings also default `control_enabled:false`; enabling either alone is insufficient for the normal agent control path. The UI readiness summary also requires recent local-mode health and a known/fresh snapshot. Do not equate a heartbeat with permission to run a game command. The Stage A preflight refuses later-stage paths/settings and unexpected service-account groups.
+
+Metric history retains one real sample per 15-minute bucket per active server for approximately 24 hours (about 96 rows), pruned on snapshot writes. An idle server's last bounded set remains until its next update; queries show only the last day. This adds no periodic browser network polling. Charts leave missed intervals blank. The fleet's local age timer expires status on screen even without a new request. Snapshots remain once per minute; history does not add an agent telemetry request or a Realtime publication. Source/UI dependencies are pinned and third-party notices are recorded in THIRD_PARTY_NOTICES.md.

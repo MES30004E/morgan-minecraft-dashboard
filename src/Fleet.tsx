@@ -25,6 +25,22 @@ export function Fleet({userId,userLabel,account,onSignOut}:{userId:string;userLa
  }
  async function refresh(){setRefreshing(true);setMessage('');try{await load();}catch(error){setMessage(String((error as {message?:string}).message||'Servers could not be loaded. Try refreshing.'));}finally{setLoading(false);setRefreshing(false);}}
  useEffect(()=>{refresh();const change=()=>setHash(location.hash);addEventListener('hashchange',change);return()=>removeEventListener('hashchange',change);},[userId]);
+ useEffect(()=>{
+  if(parseServerRoute(hash)||hash==='#account')return;
+  let active=true,channel:ReturnType<typeof supabase.channel>|null=null;
+  async function telemetry(){
+   const [snap,presence]=await Promise.all([supabase.from('snapshots').select('*'),supabase.from('online_players').select('*')]);
+   if(!active)return;
+   if(snap.error||presence.error){setMessage('Fleet telemetry could not be refreshed. Use Refresh to retry.');return;}
+   setSnapshots(snap.data||[]);setPlayers(presence.data||[]);setClock(Date.now());
+  }
+  function visibility(){
+   if(channel){supabase.removeChannel(channel);channel=null;}
+   if(document.visibilityState==='visible')channel=supabase.channel('fleet-'+userId).on('postgres_changes',{event:'*',schema:'public',table:'snapshots'},telemetry).subscribe(status=>{if(status==='SUBSCRIBED')telemetry();else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')setMessage('Fleet live updates are interrupted. Refresh to retry.');});
+  }
+  visibility();document.addEventListener('visibilitychange',visibility);
+  return()=>{active=false;document.removeEventListener('visibilitychange',visibility);if(channel)supabase.removeChannel(channel);};
+ },[userId,hash]);
  const route=parseServerRoute(hash),selected=servers.find(s=>s.id===route?.serverId);
  useEffect(()=>{if(selected)try{localStorage.setItem(memory,selected.id);}catch{}},[selected?.id]);
  const member=memberships.find(m=>m.server_id===selected?.id&&m.user_id===userId);const allowed=(permission:string)=>member?.state==='approved'&&rolePermissions.some(p=>p.role_id===member.role_id&&p.permission===permission);
