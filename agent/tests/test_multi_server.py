@@ -89,3 +89,29 @@ class LegacyStateTests(unittest.TestCase):
    require_partitioned_state(state,archives)
    (state/'executions.db').write_bytes(b'existing journal')
    with self.assertRaises(ValueError):require_partitioned_state(state,archives)
+
+class CanonicalTargetTests(unittest.TestCase):
+ def test_url_aliases_and_environment_fallback_cannot_duplicate_a_controller(self):
+  from unittest.mock import patch
+  for left,right in [('https://localhost:8443','https://localhost:8443/'),('https://localhost:8443','https://127.0.0.1:8443'),('https://[::1]:8443','https://localhost:8443'),('https://localhost','https://127.0.0.1:443')]:
+   with self.subTest(left=left,right=right),self.assertRaises(ValueError):
+    load_servers({'servers':[dict(server_id=A,crafty_server_id=CRAFT,crafty_url=left),dict(server_id=B,crafty_server_id=CRAFT,crafty_url=right)]})
+  with patch.dict('os.environ',{'CRAFTY_URL':'https://127.0.0.1:9000/'}),self.assertRaises(ValueError):
+   load_servers({'servers':[dict(server_id=A,crafty_server_id=CRAFT),dict(server_id=B,crafty_server_id=CRAFT,crafty_url='https://localhost:9000')]})
+ def test_distinct_local_controllers_are_supported(self):
+  rows=load_servers({'servers':[dict(server_id=A,crafty_server_id=CRAFT,crafty_url='https://localhost:8443'),dict(server_id=B,crafty_server_id=CRAFT,crafty_url='https://localhost:9443')]})
+  self.assertEqual(len(rows),2)
+
+class GameBookmarkTests(unittest.IsolatedAsyncioTestCase):
+ async def test_game_first_link_points_to_its_own_server(self):
+  from gateway import LocalBridge
+  class Cloud:
+   server_id=B
+   def rpc(self,name,args):
+    async def execute():return SimpleNamespace(data='a'*32)
+    return SimpleNamespace(execute=execute)
+  with tempfile.TemporaryDirectory() as root:
+   bridge=LocalBridge(Cloud(),Path(root)/'bridge.db',b'k'*32)
+   try:reply=await bridge.process(dict(nonce=A,operation='begin',player_uuid=CRAFT,player_name='Alex'))
+   finally:bridge.close()
+  self.assertIn('#server/'+B+'/linking',reply)

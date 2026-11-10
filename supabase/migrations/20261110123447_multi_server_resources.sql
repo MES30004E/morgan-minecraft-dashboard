@@ -17,7 +17,7 @@ language sql stable security definer set search_path='' as $$
  and (s.lifecycle='active' or capability in ('server.configure','access.manage','audit.view','status.view','backups.view')))
 $$;
 -- Pending users can see only the server they explicitly requested, not a directory.
-alter policy server_read on public.servers using(private.allowed(id,'status.view') or exists(select 1 from public.memberships m where m.server_id=id and m.user_id=(select auth.uid())));
+alter policy server_read on public.servers using(private.allowed(id,'status.view') or exists(select 1 from public.memberships m where m.server_id=id and m.user_id=(select auth.uid()) and m.state='pending'));
 create table public.server_endpoints(
  id uuid primary key default gen_random_uuid(),server_id uuid not null references public.servers(id),
  provider text not null check(provider ~ '^[a-z][a-z0-9_-]{0,31}$'),

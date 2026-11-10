@@ -69,7 +69,7 @@ class LocalBridge:
             if value.get('confirmed') is not True:return 'Run /unlink confirm to remove your website link. Inventory is not changed.'
             name='unlink_game_identity'
         result=await self.cloud.rpc(name,args).execute()
-        if op=='begin':return 'Open https://mes30004e.github.io/morgan-minecraft-dashboard/ and sign in. Enter pairing code '+str(result.data)+'. Then use /verify '+str(result.data)+' to review and confirm the website account. Code expires in 5 minutes.'
+        if op=='begin':return 'Open https://mes30004e.github.io/morgan-minecraft-dashboard/#server/'+self.cloud.server_id+'/linking and sign in. Enter pairing code '+str(result.data)+'. Then use /verify '+str(result.data)+' to review and confirm the website account. Code expires in 5 minutes.'
         return str(result.data)
 
     async def handle(self,reader,writer):

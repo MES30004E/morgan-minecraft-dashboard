@@ -3,6 +3,7 @@ from pathlib import Path
 import os,stat,re
 from types import SimpleNamespace
 from uuid import UUID
+from urllib.parse import urlsplit
 
 
 def load_servers(document):
@@ -15,7 +16,7 @@ def load_servers(document):
         item=dict(entry)
         for field in ('server_id','crafty_server_id'):
             if str(UUID(item[field]))!=item[field]:raise ValueError('Canonical UUID required')
-        controller=(item.get('crafty_url','https://localhost:8443'),item['crafty_server_id'])
+        controller=(canonical_controller(item.get('crafty_url',os.environ.get('CRAFTY_URL','https://localhost:8443'))),item['crafty_server_id'])
         if item['server_id'] in ids or controller in controllers:raise ValueError('Duplicate server or Crafty target')
         ids.add(item['server_id']);controllers.add(controller)
         for field in ('crafty_ca_file','backup_directory','link_socket','link_key_file','archive_key_file'):
@@ -60,3 +61,13 @@ def read_config(path):
 def require_partitioned_state(state,archives):
     if (Path(state)/'executions.db').exists() or any(Path(archives).glob('*.enc')) or any(Path(archives).glob('*.manifest.json')):
         raise ValueError('Legacy state requires an approved offline migration; never ignore an execution journal')
+
+
+def canonical_controller(url):
+    parsed=urlsplit(url)
+    if parsed.scheme!='https' or parsed.hostname not in ('localhost','127.0.0.1','::1') or parsed.username or parsed.password or parsed.path not in ('','/') or parsed.query or parsed.fragment:
+        raise ValueError('Crafty must use local HTTPS')
+    port=parsed.port if parsed.port is not None else 443
+    if not 1<=port<=65535:raise ValueError('Invalid Crafty port')
+    # Conservative: loopback aliases on the same port represent one controller.
+    return ('loopback',port)
