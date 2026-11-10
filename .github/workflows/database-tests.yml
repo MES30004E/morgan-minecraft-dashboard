@@ -35,14 +35,14 @@ jobs:
             cat /tmp/revocation-baseline.log
             exit 1
           fi
-          rg 'Revoked owner performed a privileged operation' /tmp/revocation-baseline.log
+          grep -F 'Revoked owner performed a privileged operation' /tmp/revocation-baseline.log
       - name: Prove the retention replay regression catches the old implementation
         run: |
           if psql -v ON_ERROR_STOP=1 -f supabase/tests/replay.sql > /tmp/replay-baseline.log 2>&1; then
             cat /tmp/replay-baseline.log
             exit 1
           fi
-          rg 'Old operation replayed after cloud retention' /tmp/replay-baseline.log
+          grep -F 'Old operation replayed after cloud retention' /tmp/replay-baseline.log
   authorization:
     runs-on: ubuntu-latest
     services:
@@ -73,4 +73,5 @@ jobs:
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/pairing.sql
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/archiving.sql
       - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/replay.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/tests/statistics.sql
       - run: bash supabase/tests/revocation-race.sh

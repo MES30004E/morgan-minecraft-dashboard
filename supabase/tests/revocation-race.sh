@@ -51,7 +51,7 @@ if wait "$waiter"; then
   printf 'Revoked owner performed a privileged operation.\n' >&2
   exit 1
 fi
-if ! rg -q 'Authorization revoked|Forbidden' "$race_dir/waiter"; then
+if ! grep -Eq 'Authorization revoked|Forbidden' "$race_dir/waiter"; then
   cat "$race_dir/waiter" >&2
   exit 1
 fi
